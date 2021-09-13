@@ -1,0 +1,13 @@
+statement: Theorem 2. I am an example of a subproof.
+steps:
+  - statement: Step one
+  - statement: Step two
+    detailed: Step two details
+  - statement: Step three
+  - statement: Case a
+    steps:
+      - statement: Case a, step one
+      - statement: Case a, step two
+  - statement: Case b
+    steps:
+      - statement: Case b step one

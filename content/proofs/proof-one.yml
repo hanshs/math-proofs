@@ -1,0 +1,17 @@
+statement: Theorem 1. sqrt/2 is irrational.
+steps:
+  - statement: Assume that sqrt/2 is rational.
+  - statement: Then we can write sqrt/2 as a reduced fraction a/b.
+    detailed: There exist positive integers a and b such that a and b are relatively prime and √2 = a/b.
+  - statement: Then a = 2b.
+  - statement: We distinguish three cases - a even and b odd. a odd.
+  - statement: Case a even and b odd.
+    steps:
+      - statement: then a\2 is divisible by 4.
+      - statement: then b\2 is even by 3.
+        subproof:
+          reference: proof-two
+      - statement: Contradiction tot he fact that b is odd.
+  - statement: Case a odd.
+    steps:
+      - statement: Contradiction to 3.
