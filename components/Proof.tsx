@@ -7,7 +7,9 @@ function ProofStep(props: { step: IProof }) {
 
   return (
     <li>
-      <div className="cursor-pointer inline-block" onClick={() => setIsOpen(!isOpen)}>
+      <div
+        className={`${(step.detailed || step.steps || step.subproof) ? 'hover:text-green-600 cursor-pointer' : ''} inline-block`}
+        onClick={() => setIsOpen(!isOpen)}>
         {step.statement}
       </div>
       {isOpen && (
