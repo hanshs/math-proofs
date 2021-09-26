@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Proof {
+  id          Int     @id @default(autoincrement())
+  description String?
+  steps       Step[]
+  // SubProof    SubProof[]
+  // SubProof    SubProof[]
+  subProofOf  Step[]  @relation("subProof")
+}
+
+model Step {
+  id         Int     @id @default(autoincrement())
+  statement  String
+  detailed   String?
+  subProof   Proof?  @relation("subProof", fields: [subProofId], references: [id])
+  proofs     Proof[]
+  subProofId Int?
+}
+
+// model SubProof {
+//   proof   Proof @relation(fields: [proofId], references: [id])
+//   proofId Int
+
+//   Step Step[]
+//   @@id([proofId])
+// }
