@@ -9,6 +9,7 @@ export interface IProofStep extends Step {
     subProof: (Proof & {
         steps: Step[];
     });
+    steps: Step[];
 }
 
 export interface ISubProof extends Proof {
@@ -28,9 +29,9 @@ class DatabaseClient {
             DatabaseClient.instance = new DatabaseClient()
         }
 
-        return DatabaseClient.instance.prisma
+        return DatabaseClient.instance
     }
 }
 
-export default DatabaseClient.getInstance()
+export default DatabaseClient
 

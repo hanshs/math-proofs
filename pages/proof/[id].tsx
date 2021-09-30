@@ -1,5 +1,6 @@
 import ProofComponent from '../../components/Proof'
-import prisma, { IProof } from '../../lib/prisma'
+import { IProof } from '../../lib/prisma'
+import * as API from '../../lib/api'
 
 interface IProofPageProps {
   proof: IProof
@@ -18,16 +19,13 @@ export default function ProofPage(props: IProofPageProps) {
 export async function getStaticProps(props: any) {
   return {
     props: {
-      proof: await prisma.proof.findFirst({
-        where: { id: Number(props.params.id) },
-        include: { steps: { include: { subProof: { include: { steps: true } } } } }
-      })
+      proof: await API.getProofById(props.params.id)
     }
   }
 }
 
 export async function getStaticPaths() {
-  const proofIds = await prisma.proof.findMany({ select: { id: true } })
+  const proofIds = await API.getAllProofIds()
 
   return {
     paths: proofIds.map(p => ({ params: { id: String(p.id) } })),

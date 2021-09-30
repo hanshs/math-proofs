@@ -1,7 +1,10 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
-import prisma, { IProof } from '../lib/prisma';
+
+import * as API from '../lib/api'
+import { IProof } from '../lib/prisma'
+
 interface IIndexPageProps {
   proofs: IProof[]
 }
@@ -31,7 +34,7 @@ export default function IndexPage(props: IIndexPageProps) {
 export async function getStaticProps() {
   return {
     props: {
-      proofs: await prisma.proof.findMany({ include: { steps: { include: { subProof: { include: { steps: true } } } } } })
+      proofs: await API.getAllProofs()
     }
   }
 }

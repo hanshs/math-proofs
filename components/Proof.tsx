@@ -15,7 +15,7 @@ function ProofStep(props: { step: IProofStep }) {
       {isOpen && (
         <div className="pl-8">
           {step.detailed}
-          {/* {step.steps && <Proof proof={{ steps: step.steps }} />} */}
+          {step.steps && <Proof proof={{ steps: step.steps } as IProof} />}
           {step.subProof && <Proof proof={step.subProof as IProof} />}
         </div>)}
     </li>
