@@ -1,4 +1,19 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Proof, Step } from '@prisma/client'
+
+// look away
+export interface IProof extends Proof {
+    steps: IProofStep[];
+}
+
+export interface IProofStep extends Step {
+    subProof: (Proof & {
+        steps: Step[];
+    });
+}
+
+export interface ISubProof extends Proof {
+    steps: Step[];
+}
 
 class DatabaseClient {
     public prisma: PrismaClient
@@ -18,3 +33,4 @@ class DatabaseClient {
 }
 
 export default DatabaseClient.getInstance()
+

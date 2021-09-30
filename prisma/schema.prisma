@@ -11,27 +11,45 @@ generator client {
 }
 
 model Proof {
-  id          Int     @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   description String?
   steps       Step[]
-  // SubProof    SubProof[]
-  // SubProof    SubProof[]
-  subProofOf  Step[]  @relation("subProof")
+  subProofOf  Step[]    @relation("subProof")
+  comments    Comment[]
 }
 
 model Step {
-  id         Int     @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   statement  String
+  steps      Step[]    @relation("StepToStep")
   detailed   String?
-  subProof   Proof?  @relation("subProof", fields: [subProofId], references: [id])
-  proofs     Proof[]
+  subProof   Proof?    @relation("subProof", fields: [subProofId], references: [id])
+  belongsToProofs     Proof[]
   subProofId Int?
+  comments   Comment[]
+  Step       Step?     @relation("StepToStep", fields: [stepId], references: [id])
+  stepId     Int?
 }
 
-// model SubProof {
-//   proof   Proof @relation(fields: [proofId], references: [id])
-//   proofId Int
+enum UserRole {
+  USER
+  ADMIN
+}
 
-//   Step Step[]
-//   @@id([proofId])
-// }
+model User {
+  id       Int       @id @default(autoincrement())
+  email    String
+  comments Comment[]
+}
+
+model Comment {
+  id       Int    @id @default(autoincrement())
+  contents String
+
+  Proof   Proof? @relation(fields: [proofId], references: [id])
+  proofId Int?
+  Step    Step?  @relation(fields: [stepId], references: [id])
+  stepId  Int?
+  User    User?  @relation(fields: [userId], references: [id])
+  userId  Int?
+}
