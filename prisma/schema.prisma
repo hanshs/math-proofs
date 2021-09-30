@@ -16,7 +16,7 @@ model Proof {
   steps       Step[]
   subProofOf  Step[]    @relation("subProof")
   comments    Comment[]
-  deletedFlag Boolean
+  deletedFlag Boolean?
 }
 
 model Step {
@@ -30,7 +30,7 @@ model Step {
   comments   Comment[]
   Step       Step?     @relation("StepToStep", fields: [stepId], references: [id])
   stepId     Int?
-  deletedFlag Boolean
+  deletedFlag Boolean?
 }
 
 enum UserRole {
