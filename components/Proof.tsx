@@ -1,22 +1,22 @@
 import { useState } from "react"
-import { IProof } from "../lib"
+import { IProof, IProofStep } from "../lib/prisma"
 
-function ProofStep(props: { step: IProof }) {
+function ProofStep(props: { step: IProofStep }) {
   const { step } = props
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <li>
       <div
-        className={`${(step.detailed || step.steps || step.subproof) ? 'hover:text-green-600 cursor-pointer' : ''} inline-block`}
+        className={`${(step.detailed || step.subProof) ? 'hover:text-green-600 cursor-pointer' : ''} inline-block`}
         onClick={() => setIsOpen(!isOpen)}>
         {step.statement}
       </div>
       {isOpen && (
         <div className="pl-8">
           {step.detailed}
-          {step.steps && <Proof proof={{ steps: step.steps }} />}
-          {step.subproof && <Proof proof={step.subproof} />}
+          {step.steps && <Proof proof={{ steps: step.steps } as IProof} />}
+          {step.subProof && <Proof proof={step.subProof as IProof} />}
         </div>)}
     </li>
   )
@@ -25,7 +25,7 @@ function ProofStep(props: { step: IProof }) {
 export default function Proof(props: { proof: IProof }) {
   return (
     <ol className="list-decimal list-inside">
-      <h3>{props.proof.statement}</h3>
+      <h3>{props.proof.description}</h3>
       {props.proof.steps.map((step, index) => <ProofStep key={index} step={step} />)}
     </ol>
   )

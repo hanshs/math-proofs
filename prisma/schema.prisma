@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Proof {
+  id          Int       @id @default(autoincrement())
+  description String?
+  steps       Step[]
+  subProofOf  Step[]    @relation("subProof")
+  comments    Comment[]
+  deletedFlag Boolean?
+}
+
+model Step {
+  id         Int       @id @default(autoincrement())
+  statement  String
+  steps      Step[]    @relation("StepToStep")
+  detailed   String?
+  subProof   Proof?    @relation("subProof", fields: [subProofId], references: [id])
+  belongsToProofs     Proof[]
+  subProofId Int?
+  comments   Comment[]
+  Step       Step?     @relation("StepToStep", fields: [stepId], references: [id])
+  stepId     Int?
+  deletedFlag Boolean?
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  email    String
+  comments Comment[]
+}
+
+model Comment {
+  id       Int    @id @default(autoincrement())
+  contents String
+
+  Proof   Proof? @relation(fields: [proofId], references: [id])
+  proofId Int?
+  Step    Step?  @relation(fields: [stepId], references: [id])
+  stepId  Int?
+  User    User?  @relation(fields: [userId], references: [id])
+  userId  Int?
+}
