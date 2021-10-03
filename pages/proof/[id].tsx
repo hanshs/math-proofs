@@ -1,25 +1,39 @@
-import ProofComponent from '../../components/Proof'
-import { IProof } from '../../lib/prisma'
+
+import { GetStaticProps } from 'next'
+import Argument from '../../components/Argument'
 import * as API from '../../lib/api'
+import { ProofWithArguments } from '../../lib/prisma'
 
 interface IProofPageProps {
-  proof: IProof
+  proof: ProofWithArguments | null
 }
 
 export default function ProofPage(props: IProofPageProps) {
   return (
     <div className="p-10">
+      <ol className="list-decimal list-inside">
+        <h3>Assumption: {props.proof?.assumption}</h3>
 
-      <ProofComponent proof={props.proof} />
-      <pre>{JSON.stringify(props.proof, null, 2)}</pre>
+        <p>{props.proof?.detailed && props.proof.detailed}</p>
+
+        {props.proof?.arguments.map((argument, index) => (
+          <Argument key={index} argument={argument} />
+        ))}
+
+        <p>Conclusion: {props.proof?.conclusion}</p>
+      </ol>
+
+      <small>
+        <pre>{JSON.stringify(props.proof, null, 2)}</pre>
+      </small>
     </div>
   )
 }
 
-export async function getStaticProps(props: any) {
+export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
-      proof: await API.getProofById(props.params.id)
+      proof: await API.getProofById(String(context?.params?.id))
     }
   }
 }
