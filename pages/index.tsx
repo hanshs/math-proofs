@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
-import AddProof from '../components/AddProof'
+import CreateProof from '../components/CreateProof'
 
 import * as API from '../lib/api'
 
@@ -31,7 +31,7 @@ export default function IndexPage(props: IIndexPageProps) {
           <pre>{JSON.stringify(props.proofs, undefined, 2)}</pre>
         </small>
       </ul>
-      <AddProof />
+      <CreateProof />
     </>
   )
 }
