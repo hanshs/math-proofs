@@ -10,7 +10,7 @@ interface IProofPageProps {
 
 export default function ProofPage(props: IProofPageProps) {
   return (
-    <div className="p-10">
+    <>
       <ol className="list-decimal list-inside">
         <h3>Assumption: {props.proof?.assumption}</h3>
 
@@ -26,7 +26,7 @@ export default function ProofPage(props: IProofPageProps) {
       <small>
         <pre>{JSON.stringify(props.proof, null, 2)}</pre>
       </small>
-    </div>
+    </>
   )
 }
 

@@ -1,10 +1,11 @@
-import { Prisma } from ".prisma/client"
+import { Prisma } from "@prisma/client"
+import { useRouter } from "next/router"
 import React from "react"
-// import { createProof } from "../lib/api"
+import { createProof } from "../lib/http"
 
 export default function CreateProof() {
+    const router = useRouter()
     const [values, setValues] = React.useState<Partial<Prisma.ProofCreateInput>>()
-
     const updateValues = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setValues({
             ...values,
@@ -15,10 +16,13 @@ export default function CreateProof() {
 
     const addArgument = (e: React.MouseEvent) => { }
     const createArgument = (e: React.MouseEvent) => { }
-
-    const onCreate = (e: React.MouseEvent) => {
+    const onCreate = async (e: React.MouseEvent) => {
         try {
-            // createProof(values as Prisma.ProofCreateInput)
+            const res = await createProof(values as Prisma.ProofCreateInput)
+
+            if (res.success && res.proofId) {
+                router.push(`/proof/${res.proofId}`)
+            }
         } catch (e) {
             console.error('Failed to create proof with the following input: ', values)
         }
@@ -32,20 +36,20 @@ export default function CreateProof() {
             <h2 className="text-2xl">Create Proof</h2>
 
             <div className="">
-                <label htmlFor="proof-assuption" className="block">Assuption</label>
+                <label htmlFor="assumption" className="block">Assumption</label>
                 <input
-                    id="proof-assuption"
+                    id="assumption"
                     className={input}
-                    value={values?.['assumption'] || ""}
+                    value={values?.['assumption']}
                     placeholder="Assumption"
                     onChange={updateValues}
                 />
             </div>
 
             <div>
-                <label htmlFor="proof-detailed" className="block">Detailed</label>
+                <label htmlFor="detailed" className="block">Detailed</label>
                 <textarea
-                    id="proof-detailed"
+                    id="detailed"
                     className={input}
                     value={values?.['detailed'] || ""}
                     placeholder="Detailed"
@@ -71,10 +75,10 @@ export default function CreateProof() {
             </div>
 
             <div>
-                <label htmlFor="proof-conclusion" className="block">Conclusion</label>
+                <label htmlFor="conclusion" className="block">Conclusion</label>
                 <textarea
                     className={input}
-                    id="proof-conclusion"
+                    id="conclusion"
                     value={values?.['conclusion'] || ""}
                     placeholder="Conclusion"
                     onChange={updateValues}
