@@ -5,6 +5,9 @@ export default function Argument(props: { argument: ArgumentType }) {
   const { argument } = props
   const [isOpen, setIsOpen] = useState(false)
 
+
+  console.log({ props })
+
   return (
     <li>
       <div

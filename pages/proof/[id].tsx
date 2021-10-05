@@ -1,48 +1,37 @@
 
-import { GetStaticProps } from 'next'
+import React from 'react'
+import { useRouter } from 'next/router'
+
 import Argument from '../../components/Argument'
-import * as API from '../../lib/api'
-import { ProofWithArguments } from '../../lib/prisma'
+import { useProof } from '../../lib/data'
+import Head from 'next/head'
 
-interface IProofPageProps {
-  proof: ProofWithArguments | null
-}
+export default function ProofPage() {
+  const router = useRouter()
+  const { data } = useProof(String(router.query.id))
+  if (!data?.proof) return null
+  const { proof } = data
 
-export default function ProofPage(props: IProofPageProps) {
   return (
     <>
+      <Head>
+        <title>{proof.assumption}</title>
+      </Head>
       <ol className="list-decimal list-inside">
-        <h3>Assumption: {props.proof?.assumption}</h3>
+        <h3>Assumption: {proof.assumption}</h3>
 
-        <p>{props.proof?.detailed && props.proof.detailed}</p>
+        <p>{proof?.detailed && proof.detailed}</p>
 
-        {props.proof?.arguments.map((argument, index) => (
+        {proof?.arguments?.map((argument, index) => (
           <Argument key={index} argument={argument} />
         ))}
 
-        <p>Conclusion: {props.proof?.conclusion}</p>
+        <p>Conclusion: {proof?.conclusion}</p>
       </ol>
 
       <small>
-        <pre>{JSON.stringify(props.proof, null, 2)}</pre>
+        <pre>{JSON.stringify(proof, null, 2)}</pre>
       </small>
     </>
   )
-}
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  return {
-    props: {
-      proof: await API.getProofById(String(context?.params?.id))
-    }
-  }
-}
-
-export async function getStaticPaths() {
-  const proofIds = await API.getAllProofIds()
-
-  return {
-    paths: proofIds.map(p => ({ params: { id: String(p.id) } })),
-    fallback: false,
-  }
 }
