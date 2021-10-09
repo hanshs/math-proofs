@@ -13,7 +13,8 @@ export default async function handler(req: Request, res: Response) {
     if (req.method === 'GET') {
         getProof(req, res)
     } else if (req.method === 'PUT') {
-        updateProof(req, res)
+        // updateProof(req, res)
+        // res.status(400)
     } else {
         res.status(400)
     }
@@ -36,7 +37,7 @@ async function getProof(req: Request, res: Response) {
     }
 }
 
-async function updateProof(req: Request, res: Response) {
-    res.status(200).send("Implement me")
-}
+    // async function updateProof(req: Request, res: Response) {
+    //     res.status(200).send("Implement me")
+    // }
 
