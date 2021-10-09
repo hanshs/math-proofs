@@ -1,12 +1,14 @@
+import { Proof } from '@prisma/client'
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
+import CreateProof from '../components/CreateProof'
 
 import * as API from '../lib/api'
-import { IProof } from '../lib/prisma'
 
 interface IIndexPageProps {
-  proofs: IProof[]
+  proofs: Proof[]
 }
 
 export default function IndexPage(props: IIndexPageProps) {
@@ -18,20 +20,23 @@ export default function IndexPage(props: IIndexPageProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ul>
-        {props.proofs.map((p, index) => (
+        {props.proofs.map((proof, index) => (
           <li key={index} className="hover:text-green-600">
-            <Link href={`/proof/${p.id}`} >
-              <a>{p.description}</a>
+            <Link href={`/proof/${proof.id}`} >
+              <a>{proof.assumption}</a>
             </Link>
           </li>
         ))}
-        {/* <pre>{JSON.stringify(props.proofs, undefined, 2)}</pre> */}
+        <small>
+          <pre>{JSON.stringify(props.proofs, undefined, 2)}</pre>
+        </small>
       </ul>
+      <CreateProof />
     </>
   )
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async (context) => {
   return {
     props: {
       proofs: await API.getAllProofs()

@@ -1,9 +1,8 @@
-import DatabaseClient from './prisma'
-
-const prisma = DatabaseClient.getInstance().prisma
+import { Prisma } from '@prisma/client'
+import prisma from './prisma'
 
 export function getAllProofs() {
-    return prisma.proof.findMany({ include: { steps: { include: { subProof: { include: { steps: true } } } } } })
+    return prisma.proof.findMany()
 }
 
 export function getAllProofIds() {
@@ -14,21 +13,16 @@ export function getProofById(id: string) {
     return prisma.proof.findFirst({
         where: { id: Number(id) },
         include: {
-            steps: {
-                include: {
-                    subProof: { include: { steps: true } },
-                    steps: true
-                }
-            }
+            arguments: true
         }
     })
 }
 
-export function createProof(data: {}) {
+export function createProof(data: Prisma.ProofCreateInput) {
     return prisma.proof.create({ data })
 }
 
-export function updateProof(proofId: number, data: {}) {
+export function updateProof(proofId: number, data: Prisma.ProofUpdateInput) {
     return prisma.proof.update({ where: { id: proofId }, data })
 }
 
@@ -36,14 +30,14 @@ export function deleteProof(proofId: number) {
     return updateProof(proofId, { deletedFlag: true })
 }
 
-export function createStep(data: { statement: string }) {
-    return prisma.step.create({ data })
+export function createArgument(data: Prisma.ArgumentCreateInput) {
+    return prisma.argument.create({ data })
 }
 
-export function deleteStep(stepId: number) {
-    return updateStep(stepId, { deletedFlag: true })
+export function deleteArgument(argumentId: number) {
+    return updateArgument(argumentId, { deletedFlag: true })
 }
 
-export function updateStep(stepId: number, data: {}) {
-    return prisma.step.update({ where: { id: stepId }, data })
+export function updateArgument(argumentId: number, data: Prisma.ArgumentUpdateInput) {
+    return prisma.argument.update({ where: { id: argumentId }, data })
 }

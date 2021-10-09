@@ -11,47 +11,51 @@ generator client {
 }
 
 model Proof {
-  id          Int       @id @default(autoincrement())
-  description String?
-  steps       Step[]
-  subProofOf  Step[]    @relation("subProof")
+  id          Int        @id @default(autoincrement())
+  assumption  String
+  detailed    String?
+  conclusion  String
+  arguments   Argument[] @relation("argumentId")
   comments    Comment[]
   deletedFlag Boolean?
+  Argument    Argument?  @relation("proofId", fields: [argumentId], references: [id])
+  argumentId  Int?
 }
 
-model Step {
-  id         Int       @id @default(autoincrement())
-  statement  String
-  steps      Step[]    @relation("StepToStep")
-  detailed   String?
-  subProof   Proof?    @relation("subProof", fields: [subProofId], references: [id])
-  belongsToProofs     Proof[]
-  subProofId Int?
-  comments   Comment[]
-  Step       Step?     @relation("StepToStep", fields: [stepId], references: [id])
-  stepId     Int?
-  deletedFlag Boolean?
+model Argument {
+  id              Int        @id @default(autoincrement())
+  statement       String
+  detailed        String?
+  usedInArguments Argument[] @relation("ArgumentToArgument")
+  usedInProofs    Proof[]    @relation("proofId")
+  comments        Comment[]
+  deletedFlag     Boolean?
+  argumentId      Int?
+  Argument        Argument?  @relation("ArgumentToArgument", fields: [argumentId], references: [id])
+  Proof           Proof?     @relation("argumentId", fields: [proofId], references: [id])
+  proofId         Int?
 }
 
 enum UserRole {
   USER
-  ADMIN
+  POWERUSER
 }
 
 model User {
   id       Int       @id @default(autoincrement())
-  email    String
+  email    String    @unique
   comments Comment[]
+  role     UserRole  @default(USER)
 }
 
 model Comment {
   id       Int    @id @default(autoincrement())
   contents String
 
-  Proof   Proof? @relation(fields: [proofId], references: [id])
-  proofId Int?
-  Step    Step?  @relation(fields: [stepId], references: [id])
-  stepId  Int?
-  User    User?  @relation(fields: [userId], references: [id])
-  userId  Int?
+  proofId    Int?
+  argumentId Int?
+  userId     Int?
+  Proof      Proof?    @relation(fields: [proofId], references: [id])
+  Argument   Argument? @relation(fields: [argumentId], references: [id])
+  User       User?     @relation(fields: [userId], references: [id])
 }

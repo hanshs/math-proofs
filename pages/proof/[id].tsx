@@ -1,34 +1,37 @@
-import ProofComponent from '../../components/Proof'
-import { IProof } from '../../lib/prisma'
-import * as API from '../../lib/api'
 
-interface IProofPageProps {
-  proof: IProof
-}
+import React from 'react'
+import { useRouter } from 'next/router'
 
-export default function ProofPage(props: IProofPageProps) {
+import Argument from '../../components/Argument'
+import { useProof } from '../../lib/data'
+import Head from 'next/head'
+
+export default function ProofPage() {
+  const router = useRouter()
+  const { data } = useProof(String(router.query.id))
+  if (!data?.proof) return null
+  const { proof } = data
+
   return (
-    <div className="p-10">
+    <>
+      <Head>
+        <title>{proof.assumption}</title>
+      </Head>
+      <ol className="list-decimal list-inside">
+        <h3>Assumption: {proof.assumption}</h3>
 
-      <ProofComponent proof={props.proof} />
-      <pre>{JSON.stringify(props.proof, null, 2)}</pre>
-    </div>
+        <p>{proof?.detailed && proof.detailed}</p>
+
+        {proof?.arguments?.map((argument, index) => (
+          <Argument key={index} argument={argument} />
+        ))}
+
+        <p>Conclusion: {proof?.conclusion}</p>
+      </ol>
+
+      <small>
+        <pre>{JSON.stringify(proof, null, 2)}</pre>
+      </small>
+    </>
   )
-}
-
-export async function getStaticProps(props: any) {
-  return {
-    props: {
-      proof: await API.getProofById(props.params.id)
-    }
-  }
-}
-
-export async function getStaticPaths() {
-  const proofIds = await API.getAllProofIds()
-
-  return {
-    paths: proofIds.map(p => ({ params: { id: String(p.id) } })),
-    fallback: false,
-  }
 }
