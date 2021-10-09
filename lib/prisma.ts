@@ -4,21 +4,17 @@ export interface ProofWithArguments extends Proof {
     arguments: Argument[];
 }
 
-class DatabaseClient {
-    public prisma: PrismaClient
-    private static instance: DatabaseClient
-
-    private constructor() {
-        this.prisma = new PrismaClient()
-    }
-
-    public static getInstance = () => {
-        if (!DatabaseClient.instance) {
-            DatabaseClient.instance = new DatabaseClient()
-        }
-
-        return DatabaseClient.instance
-    }
+declare global {
+    var prisma: PrismaClient | undefined
 }
 
-export default DatabaseClient.getInstance().prisma
+if (process.env.NODE_ENV === 'production') {
+    prisma = new PrismaClient()
+} else {
+    if (!global.prisma) {
+        global.prisma = new PrismaClient()
+    }
+    prisma = global.prisma
+}
+
+export default prisma
