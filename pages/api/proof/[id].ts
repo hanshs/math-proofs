@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import * as API from '../../../lib/api'
 import { ProofWithArguments } from '../../../lib/prisma';
+import prisma from '../../../lib/prisma'
 
 type Request = NextApiRequest
 type Response = NextApiResponse<{
@@ -21,14 +21,22 @@ export default async function handler(req: Request, res: Response) {
 }
 
 async function getProof(req: Request, res: Response) {
-    const id = req.query.id as string
+    const id = req.query.id
 
     if (!req.query.id) {
         res.status(400)
     }
 
     try {
-        const proof = await API.getProofById(id)
+        const proof = await prisma.proof.findFirst({
+            where: { id: Number(id) },
+            include: {
+                arguments: {
+                    include: { argument: true },
+                    orderBy: { orderIndex: 'asc' }
+                }
+            }
+        })
 
         res.status(200).json({ success: true, proof })
     } catch (error) {

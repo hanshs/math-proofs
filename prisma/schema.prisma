@@ -11,29 +11,32 @@ generator client {
 }
 
 model Proof {
-  id          Int        @id @default(autoincrement())
+  id          Int                @id @default(autoincrement())
   assumption  String
   detailed    String?
   conclusion  String
-  arguments   Argument[] @relation("argumentId")
+  arguments   ArgumentsOnProof[]
   comments    Comment[]
   deletedFlag Boolean?
-  Argument    Argument?  @relation("proofId", fields: [argumentId], references: [id])
-  argumentId  Int?
 }
 
 model Argument {
-  id              Int        @id @default(autoincrement())
-  statement       String
-  detailed        String?
-  usedInArguments Argument[] @relation("ArgumentToArgument")
-  usedInProofs    Proof[]    @relation("proofId")
-  comments        Comment[]
-  deletedFlag     Boolean?
-  argumentId      Int?
-  Argument        Argument?  @relation("ArgumentToArgument", fields: [argumentId], references: [id])
-  Proof           Proof?     @relation("argumentId", fields: [proofId], references: [id])
-  proofId         Int?
+  id           Int                @id @default(autoincrement())
+  statement    String
+  detailed     String?
+  comments     Comment[]
+  deletedFlag  Boolean?
+  usedInProofs ArgumentsOnProof[]
+}
+
+model ArgumentsOnProof {
+  orderIndex Int      @default(0)
+  proof      Proof    @relation(fields: [proofId], references: [id])
+  proofId    Int
+  argument   Argument @relation(fields: [argumentId], references: [id])
+  argumentId Int
+
+  @@id([proofId, argumentId])
 }
 
 enum UserRole {
