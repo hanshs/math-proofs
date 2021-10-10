@@ -1,5 +1,6 @@
 import { Proof } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
+import prisma from '../../lib/prisma'
 
 type Response = {
     success: boolean
