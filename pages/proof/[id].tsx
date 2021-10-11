@@ -17,13 +17,14 @@ export default function ProofPage() {
       <Head>
         <title>{proof.assumption}</title>
       </Head>
+
       <ol className="list-decimal list-inside">
         <h3>Assumption: {proof.assumption}</h3>
 
         <p>{proof?.detailed && proof.detailed}</p>
 
-        {proof?.arguments?.map((argument, index) => (
-          <Argument key={index} argument={argument} />
+        {proof?.arguments?.map((a, index) => (
+          <Argument key={index} argument={a.argument} />
         ))}
 
         <p>Conclusion: {proof?.conclusion}</p>

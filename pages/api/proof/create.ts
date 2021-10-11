@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import * as API from '../../../lib/api'
+
+import prisma from '../../../lib/prisma'
 
 type Response = {
     success: boolean
@@ -11,7 +12,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (req.method === 'POST') {
         const values = JSON.parse(req.body)
         try {
-            const result = await API.createProof(values)
+            const result = await prisma.proof.create({ data: values })
+
             res.status(200).json({ success: true, proofId: result.id })
         } catch (error) {
             console.log('Error creating Proof:', { values, error })

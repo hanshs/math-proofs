@@ -1,20 +1,17 @@
-import { PrismaClient, Proof, Argument } from '@prisma/client'
+import { PrismaClient, Proof, Argument, ArgumentsOnProof } from '@prisma/client'
 
 export interface ProofWithArguments extends Proof {
-    arguments: Argument[];
+    arguments: (ArgumentsOnProof & {
+        argument: Argument;
+    })[];
 }
 
 declare global {
-    var prisma: PrismaClient | undefined
+    var prisma: PrismaClient | undefined;
 }
 
-if (process.env.NODE_ENV === 'production') {
-    prisma = new PrismaClient()
-} else {
-    if (!global.prisma) {
-        global.prisma = new PrismaClient()
-    }
-    prisma = global.prisma
-}
+const prisma = global.prisma || new PrismaClient({ log: ["info"] });
 
-export default prisma
+if (process.env.NODE_ENV !== "production") global.prisma = prisma;
+
+export default prisma;
