@@ -17,22 +17,24 @@ export default function ProofPage() {
       <Head>
         <title>{proof.assumption}</title>
       </Head>
+      <div className="mainContainer">
+        <ol className="list-decimal list-inside">
+          <h3>Assumption: {proof.assumption}</h3>
 
-      <ol className="list-decimal list-inside">
-        <h3>Assumption: {proof.assumption}</h3>
+          <p>{proof?.detailed && proof.detailed}</p>
 
-        <p>{proof?.detailed && proof.detailed}</p>
+          {proof?.arguments?.map((a, index) => (
+            <Argument key={index} argument={a.argument} />
+          ))}
 
-        {proof?.arguments?.map((a, index) => (
-          <Argument key={index} argument={a.argument} />
-        ))}
-
-        <p>Conclusion: {proof?.conclusion}</p>
-      </ol>
-
-      <small>
-        <pre>{JSON.stringify(proof, null, 2)}</pre>
-      </small>
+          <p>Conclusion: {proof?.conclusion}</p>
+        </ol>
+        {/*
+        <small>
+          <pre>{JSON.stringify(proof, null, 2)}</pre>
+        </small>
+        */}
+      </div>
     </>
   )
 }
