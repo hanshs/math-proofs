@@ -48,7 +48,7 @@ export default function IndexPage(props: IIndexPageProps) {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const proofs = await prisma.proof.findMany()
+  const proofs = await prisma.proof.findMany({ where: { deletedFlag: false } })
 
   return {
     props: { proofs }

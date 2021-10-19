@@ -17,7 +17,7 @@ model Proof {
   conclusion  String
   arguments   ArgumentsOnProof[]
   comments    Comment[]
-  deletedFlag Boolean?
+  deletedFlag Boolean?           @default(false)
 }
 
 model Argument {
@@ -25,7 +25,7 @@ model Argument {
   statement    String
   detailed     String?
   comments     Comment[]
-  deletedFlag  Boolean?
+  deletedFlag  Boolean?           @default(false)
   usedInProofs ArgumentsOnProof[]
 }
 

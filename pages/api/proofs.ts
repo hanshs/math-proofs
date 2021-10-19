@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         try {
             res.status(200).json({
                 success: true,
-                proofs: await prisma.proof.findMany()
+                proofs: await prisma.proof.findMany({ where: { deletedFlag: false } })
             })
         } catch (error) {
             console.log('Error getting Proofs:', { error })

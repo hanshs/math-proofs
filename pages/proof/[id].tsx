@@ -3,7 +3,7 @@ import React from 'react'
 import { useRouter } from 'next/router'
 
 import Argument from '../../components/Argument'
-import { useProof } from '../../lib/data'
+import { deleteProof, useProof } from '../../lib/data'
 import Head from 'next/head'
 
 export default function ProofPage() {
@@ -12,12 +12,24 @@ export default function ProofPage() {
   if (!data?.proof) return null
   const { proof } = data
 
+  const onClickDelete = async () => {
+    const confirm = window.confirm('Are you sure?')
+
+    if (confirm) {
+      const res = await deleteProof(proof.id)
+
+      if (res.success) {
+        router.push('/')
+      }
+    }
+  }
+
   return (
     <>
       <Head>
         <title>{proof.assumption}</title>
       </Head>
-      <div className="mainContainer">
+      <div className="mainContainer space-y-3">
         <ol className="list-decimal list-inside">
           <h3>Assumption: {proof.assumption}</h3>
 
@@ -34,6 +46,7 @@ export default function ProofPage() {
           <pre>{JSON.stringify(proof, null, 2)}</pre>
         </small>
         */}
+        <button className="btn btn-secondary block ml-auto" onClick={onClickDelete}>Delete Proof</button>
       </div>
     </>
   )
