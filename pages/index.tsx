@@ -3,13 +3,12 @@ import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
+import { useProofs } from '../lib/data'
 import prisma from '../lib/prisma'
 
-interface IIndexPageProps {
-  proofs: Proof[]
-}
+export default function IndexPage() {
+  const proofs = useProofs()?.data?.proofs
 
-export default function IndexPage(props: IIndexPageProps) {
   return (
     <>
       <Head>
@@ -27,7 +26,7 @@ export default function IndexPage(props: IIndexPageProps) {
         </div>
         <div className="flex">
           <ol className="w-full">
-            {props.proofs.map((proof, index) => (
+            {proofs?.map((proof, index) => (
               <li key={index} className="hover:text-green-600 text-green-800 proofListItem">
                 <Link href={`/proof/${proof.id}`} >
                   <a>{proof.assumption}</a>
@@ -47,10 +46,10 @@ export default function IndexPage(props: IIndexPageProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const proofs = await prisma.proof.findMany({ where: { deletedFlag: false } })
+// export const getStaticProps: GetStaticProps = async (context) => {
+//   const proofs = await prisma.proof.findMany({ where: { deletedFlag: false } })
 
-  return {
-    props: { proofs }
-  }
-}
+//   return {
+//     props: { proofs }
+//   }
+// }

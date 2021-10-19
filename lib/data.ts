@@ -6,7 +6,7 @@ const fetcher = (url: RequestInfo, options?: RequestInit) => fetch(url, options)
 
 // queries
 export function useProofs() {
-    return useSWR<ProofWithArguments[]>("/api/proofs", fetcher);
+    return useSWR<{ proofs: ProofWithArguments[] }>("/api/proofs", fetcher);
 }
 
 export function useArguments() {
