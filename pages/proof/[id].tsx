@@ -29,7 +29,7 @@ export default function ProofPage() {
       <Head>
         <title>{proof.assumption}</title>
       </Head>
-      <div className="mainContainer space-y-3">
+      <div className="space-y-3">
         <ol className="list-decimal list-inside">
           <h3>Assumption: {proof.assumption}</h3>
 
@@ -41,11 +41,6 @@ export default function ProofPage() {
 
           <p>Conclusion: {proof?.conclusion}</p>
         </ol>
-        {/*
-        <small>
-          <pre>{JSON.stringify(proof, null, 2)}</pre>
-        </small>
-        */}
         <button className="btn btn-secondary block ml-auto" onClick={onClickDelete}>Delete Proof</button>
       </div>
     </>
