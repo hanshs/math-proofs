@@ -35,14 +35,6 @@ hr {
     background-color: theme('colors.secondary');
 }
 
-.mainContainer {
-    background-color: #fff;
-    margin: 0 auto;
-    width: 84%;
-    padding: 20px;
-    min-height: 100%;
-}
-
 .proofListItem {
     border-width: 1px;
     border-color: theme('colors.primary');

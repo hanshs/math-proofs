@@ -4,10 +4,17 @@ import React from 'react'
 import 'tailwindcss/tailwind.css'
 import Layout from '../components/Layout'
 
-export default function ProofsApp({ Component, pageProps }: AppProps) {
+import { SessionProvider } from "next-auth/react"
+
+export default function ProofsApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <SessionProvider session={session}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SessionProvider>
   )
 }
