@@ -1,10 +1,25 @@
-import { PrismaClient, Proof, Argument, ArgumentsOnProof } from '@prisma/client'
+import { Claim, PrismaClient, ProofStep, Theorem } from '@prisma/client'
 
-export interface ProofWithArguments extends Proof {
-    arguments: (ArgumentsOnProof & {
-        argument: Argument;
+// export interface ProofWithArguments extends Proof {
+//     arguments: (ArgumentsOnProof & {
+//         argument: Argument;
+//     })[];
+// }
+
+export interface TheoremWithClaim extends Theorem {
+    claim: Claim & {
+        successor: Claim | null;
+    };
+}
+
+export interface TheoremWithProofSteps extends TheoremWithClaim {
+    proof: (ProofStep & {
+        claim: (Claim & {
+            successor: Claim | null;
+        })[];
     })[];
 }
+
 
 declare global {
     var prisma: PrismaClient | undefined;

@@ -11,41 +11,28 @@ generator client {
 }
 
 model Theorem {
-  id      Int    @id @default(autoincrement())
-  claim   Claim?
-  proof   Proof?
-  proofId Int
-  claimId Int
+  id      Int         @id @default(autoincrement())
+  claim   Claim       @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  proof   ProofStep[]
+  claimId Int         @unique
 }
 
-model Proof {
-  id        Int         @id @default(autoincrement())
-  theorem   Theorem     @relation(fields: [theoremId], references: [id])
-  theoremId Int         @unique
-  steps     ProofStep[]
+model ProofStep {
+  id          Int      @id @default(autoincrement())
+  explanation String?
+  claim       Claim[]
+  theorem     Theorem? @relation(fields: [theoremId], references: [id], onDelete: Cascade)
+  theoremId   Int?
 }
 
 model Claim {
   id          Int        @id @default(autoincrement())
   statement   String
-  successor   Claim?     @relation("ClaimToClaim", fields: [successorId], references: [id])
+  theorem     Theorem?
+  successor   Claim?     @relation("ClaimToClaim", fields: [successorId], references: [id], onDelete: Cascade)
   predecessor Claim?     @relation("ClaimToClaim")
-  theorem     Theorem?   @relation(fields: [theoremId], references: [id])
   successorId Int?       @unique
-  theoremId   Int?       @unique
-  definition  ProofStep? @relation(fields: [proofStepId], references: [id])
-  proofStepId Int?       @unique
-}
-
-
-
-model ProofStep {
-  id          Int         @id @default(autoincrement())
-  definition  Claim?
-  explanation String?
-  claim       ProofStep[] @relation("ProofStepToProofStep")
-  proof       Proof       @relation(fields: [proofId], references: [id])
-  proofId     Int
+  proofStep   ProofStep? @relation(fields: [proofStepId], references: [id], onDelete: Cascade)
   proofStepId Int?
-  ProofStep   ProofStep?  @relation("ProofStepToProofStep", fields: [proofStepId], references: [id])
+  orderIndex Int?
 }
