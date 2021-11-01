@@ -2,7 +2,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-import Argument from '../../components/Argument'
 import { deleteTheorem, useTheorem } from '../../lib/data'
 import Head from 'next/head'
 import Theorem from '../../components/Theorem'
