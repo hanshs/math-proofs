@@ -37,5 +37,4 @@ model Claim {
   predecessor Claim?     @relation("ClaimToClaim")
   successorId Int?       @unique
   proofStep   ProofStep?
-  proofStepId Int?
 }
