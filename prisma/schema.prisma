@@ -38,5 +38,4 @@ model Claim {
   successorId Int?       @unique
   proofStep   ProofStep?
   proofStepId Int?
-  orderIndex  Int?
 }
