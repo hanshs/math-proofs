@@ -40,10 +40,11 @@ export default function CreateProofPage() {
 
     const createStepsInput = (steps: IProofStepCreate[]): Prisma.ProofStepCreateNestedManyWithoutTheoremInput => {
       return {
-        create: steps.map(step => {
+        create: steps.map((step, index) => {
           return {
             claim: createClaimInput(step.claim),
-            subProof: step.subProof ? createStepsInput(step.subProof) : undefined
+            subProof: step.subProof ? createStepsInput(step.subProof) : undefined,
+            orderKey: index
           }
         })
       }

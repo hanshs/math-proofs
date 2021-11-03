@@ -10,7 +10,7 @@ function SubProof(props: SubProofProps) {
     return (
         <div className=" ml-4">
             <ol className="list-decimal list-inside">
-                {props.subProof.map((step, index) => {
+                {props.subProof.sort((a, b) => a.orderKey - b.orderKey).map((step, index) => {
                     return (
                         <li key={step.id || index}>
                             <Claim claim={step.claim} />
@@ -35,7 +35,7 @@ export default function Theorem(props: TheoremProps) {
             <ol className="list-decimal list-inside space-y-4">
                 <h3 className="text-xl"><Claim claim={props.theorem.claim} /></h3>
 
-                {props.theorem.proof.map((step, index) => {
+                {props.theorem.proof.sort((a, b) => a.orderKey - b.orderKey).map((step, index) => {
                     return (
                         <li key={step.id || index}>
                             <Claim claim={step.claim} />

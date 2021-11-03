@@ -26,6 +26,7 @@ model ProofStep {
   proofStep   ProofStep?  @relation("ProofStepToProofStep", fields: [proofStepId], references: [id])
   proofStepId Int?
   claimId     Int         @unique
+  orderKey    Int
 }
 
 model Claim {

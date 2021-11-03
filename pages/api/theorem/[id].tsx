@@ -26,11 +26,7 @@ export default async function handler(req: Request, res: Response) {
   res.status(400)
 
 }
-// interface ClaimArgs {
-//   include: {
-//     successor: ClaimArgs
-//   }
-// }
+
 function includeClaimDetailLevels(amount: number): Prisma.ClaimArgs {
   return {
     include: { successor: amount === 0 ? true : includeClaimDetailLevels(amount - 1) }
