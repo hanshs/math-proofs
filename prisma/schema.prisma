@@ -10,55 +10,31 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Proof {
-  id          Int                @id @default(autoincrement())
-  assumption  String
-  detailed    String?
-  conclusion  String
-  arguments   ArgumentsOnProof[]
-  comments    Comment[]
-  deletedFlag Boolean?           @default(false)
+model Theorem {
+  id      Int         @id @default(autoincrement())
+  claim   Claim       @relation(fields: [claimId], references: [id])
+  proof   ProofStep[]
+  claimId Int         @unique
 }
 
-model Argument {
-  id           Int                @id @default(autoincrement())
-  statement    String
-  detailed     String?
-  comments     Comment[]
-  deletedFlag  Boolean?           @default(false)
-  usedInProofs ArgumentsOnProof[]
+model ProofStep {
+  id          Int         @id @default(autoincrement())
+  claim       Claim       @relation(fields: [claimId], references: [id])
+  theorem     Theorem?    @relation(fields: [theoremId], references: [id])
+  subProof    ProofStep[] @relation("ProofStepToProofStep")
+  theoremId   Int?
+  proofStep   ProofStep?  @relation("ProofStepToProofStep", fields: [proofStepId], references: [id])
+  proofStepId Int?
+  claimId     Int         @unique
+  orderKey    Int
 }
 
-model ArgumentsOnProof {
-  orderIndex Int      @default(0)
-  proof      Proof    @relation(fields: [proofId], references: [id])
-  proofId    Int
-  argument   Argument @relation(fields: [argumentId], references: [id])
-  argumentId Int
-
-  @@id([proofId, argumentId])
-}
-
-enum UserRole {
-  USER
-  POWERUSER
-}
-
-model User {
-  id       Int       @id @default(autoincrement())
-  email    String    @unique
-  comments Comment[]
-  role     UserRole  @default(USER)
-}
-
-model Comment {
-  id       Int    @id @default(autoincrement())
-  contents String
-
-  proofId    Int?
-  argumentId Int?
-  userId     Int?
-  Proof      Proof?    @relation(fields: [proofId], references: [id])
-  Argument   Argument? @relation(fields: [argumentId], references: [id])
-  User       User?     @relation(fields: [userId], references: [id])
+model Claim {
+  id          Int        @id @default(autoincrement())
+  statement   String
+  theorem     Theorem?
+  successor   Claim?     @relation("ClaimToClaim", fields: [successorId], references: [id])
+  predecessor Claim?     @relation("ClaimToClaim")
+  successorId Int?       @unique
+  proofStep   ProofStep?
 }
