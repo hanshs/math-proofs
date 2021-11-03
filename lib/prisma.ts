@@ -1,12 +1,5 @@
 import { Claim, PrismaClient, ProofStep, Theorem } from '@prisma/client'
 
-// export interface ProofWithArguments extends Proof {
-//     arguments: (ArgumentsOnProof & {
-//         argument: Argument;
-//     })[];
-// }
-
-
 export interface IClaim extends Claim {
     successor: IClaim | null
 }
@@ -18,10 +11,9 @@ export interface ITheorem extends Theorem {
 
 export interface IProofStep extends ProofStep {
     claim: IClaim
-    subProof?: IProofStep[]
+    subProof?: IProofStep[],
+    orderKey: number
 }
-
-
 
 declare global {
     var prisma: PrismaClient | undefined;
