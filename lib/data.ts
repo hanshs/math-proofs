@@ -1,17 +1,16 @@
-import { Claim, Prisma, ProofStep, Theorem } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import useSWR from "swr";
-import { TheoremWithClaim, TheoremWithProofSteps } from "./prisma";
-// import { ProofWithArguments } from "./prisma";
+import { ITheorem } from "./prisma";
 
 const fetcher = (url: RequestInfo, options?: RequestInit) => fetch(url, options).then((res) => res.json());
 
 // queries
 export function useTheorems() {
-    return useSWR<{ theorems: TheoremWithClaim[] }>("/api/theorems", fetcher).data?.theorems;
+    return useSWR<{ theorems: ITheorem[] }>("/api/theorems", fetcher).data?.theorems;
 }
 
-export function useTheorem(id?: string) {
-    return useSWR<{ theorem: TheoremWithProofSteps }>(id ? `/api/theorem/${id}` : null, fetcher).data?.theorem;
+export function useTheorem(id?: string | string[]) {
+    return useSWR<{ theorem: ITheorem }>(id ? `/api/theorem/${id}` : null, fetcher).data?.theorem;
 }
 
 // mutations

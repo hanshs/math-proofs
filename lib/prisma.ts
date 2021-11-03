@@ -6,19 +6,21 @@ import { Claim, PrismaClient, ProofStep, Theorem } from '@prisma/client'
 //     })[];
 // }
 
-export interface TheoremWithClaim extends Theorem {
-    claim: Claim & {
-        successor: Claim | null;
-    };
+
+export interface IClaim extends Claim {
+    successor: IClaim | null
 }
 
-export interface TheoremWithProofSteps extends TheoremWithClaim {
-    proof: (ProofStep & {
-        claim: (Claim & {
-            successor: Claim | null;
-        })[];
-    })[];
+export interface ITheorem extends Theorem {
+    claim: IClaim
+    proof: IProofStep[];
 }
+
+export interface IProofStep extends ProofStep {
+    claim: IClaim
+    subProof?: IProofStep[]
+}
+
 
 
 declare global {

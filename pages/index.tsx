@@ -7,7 +7,7 @@ import { useTheorems } from '../lib/data'
 
 export default function IndexPage() {
   const theorems = useTheorems()
-  console.log({ theorems })
+
   return (
     <>
       <Head>
@@ -34,7 +34,6 @@ export default function IndexPage() {
           ))}
         </ol>
       </div>
-
     </>
   )
 }

@@ -31,21 +31,38 @@ export default async function handler(req: Request, res: Response) {
 //     successor: ClaimArgs
 //   }
 // }
-function includeNestedSuccessor(amount: number): Prisma.ClaimArgs {
+function includeClaimDetailLevels(amount: number): Prisma.ClaimArgs {
   return {
-    include: { successor: amount === 0 ? true : includeNestedSuccessor(amount - 1) }
+    include: { successor: amount === 0 ? true : includeClaimDetailLevels(amount - 1) }
   }
 }
 
+function includeSubProofLevels(amount: number): Prisma.ProofStepArgs {
+  return {
+    include: {
+      claim: includeClaimDetailLevels(5),
+      ...(amount !== 0 ? { subProof: includeSubProofLevels(amount - 1) } : {})
+    }
+  }
+}
+
+
 async function getTheorem(req: Request, res: Response) {
   try {
-    const theorem = await prisma.theorem.findFirst({
+    const query = {
       where: { id: Number(req.query.id) },
       include: {
-        claim: includeNestedSuccessor(5),
-        proof: { include: { claim: includeNestedSuccessor(5) } }
+        claim: includeClaimDetailLevels(5),
+        proof: {
+          include: {
+            claim: includeClaimDetailLevels(5),
+            subProof: includeSubProofLevels(5)
+          }
+        }
       }
-    })
+    }
+
+    const theorem = await prisma.theorem.findFirst(query)
 
     res.status(200).json({ success: true, theorem })
   } catch (error) {

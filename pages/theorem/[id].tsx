@@ -6,12 +6,9 @@ import { deleteTheorem, useTheorem } from '../../lib/data'
 import Head from 'next/head'
 import Theorem from '../../components/Theorem'
 
-
-
-
 export default function ProofPage() {
   const router = useRouter()
-  const theorem = useTheorem(String(router.query.id))
+  const theorem = useTheorem(router.query.id)
 
   if (!theorem) return null
 

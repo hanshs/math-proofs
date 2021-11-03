@@ -12,27 +12,30 @@ generator client {
 
 model Theorem {
   id      Int         @id @default(autoincrement())
-  claim   Claim       @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  claim   Claim       @relation(fields: [claimId], references: [id])
   proof   ProofStep[]
   claimId Int         @unique
 }
 
 model ProofStep {
-  id          Int      @id @default(autoincrement())
-  explanation String?
-  claim       Claim[]
-  theorem     Theorem? @relation(fields: [theoremId], references: [id], onDelete: Cascade)
+  id          Int         @id @default(autoincrement())
+  claim       Claim       @relation(fields: [claimId], references: [id])
+  theorem     Theorem?    @relation(fields: [theoremId], references: [id])
+  subProof    ProofStep[] @relation("ProofStepToProofStep")
   theoremId   Int?
+  proofStep   ProofStep?  @relation("ProofStepToProofStep", fields: [proofStepId], references: [id])
+  proofStepId Int?
+  claimId     Int         @unique
 }
 
 model Claim {
   id          Int        @id @default(autoincrement())
   statement   String
   theorem     Theorem?
-  successor   Claim?     @relation("ClaimToClaim", fields: [successorId], references: [id], onDelete: Cascade)
+  successor   Claim?     @relation("ClaimToClaim", fields: [successorId], references: [id])
   predecessor Claim?     @relation("ClaimToClaim")
   successorId Int?       @unique
-  proofStep   ProofStep? @relation(fields: [proofStepId], references: [id], onDelete: Cascade)
+  proofStep   ProofStep?
   proofStepId Int?
-  orderIndex Int?
+  orderIndex  Int?
 }

@@ -1,26 +1,45 @@
 import React from "react"
-import { TheoremWithProofSteps } from "../lib/prisma"
+import { IProofStep, ITheorem } from "../lib/prisma"
 import Claim from "./Claim"
 
-interface TheoremProps {
-    theorem: TheoremWithProofSteps
+interface SubProofProps {
+    subProof: IProofStep[]
 }
 
-export default function Theorem({ theorem }: TheoremProps) {
+function SubProof(props: SubProofProps) {
+    return (
+        <div className=" ml-4">
+            <ol className="list-decimal list-inside">
+                {props.subProof.map((step, index) => {
+                    return (
+                        <li key={step.id || index}>
+                            <Claim claim={step.claim} />
+                            {step.subProof && <SubProof subProof={step.subProof} />}
+                        </li>
+                    )
+                })}
+
+            </ol>
+        </div>
+    )
+}
+
+
+interface TheoremProps {
+    theorem: ITheorem
+}
+
+export default function Theorem(props: TheoremProps) {
     return (
         <div className="space-y-3">
             <ol className="list-decimal list-inside space-y-4">
-                <h3 className="text-xl"><Claim claim={theorem.claim} /></h3>
+                <h3 className="text-xl"><Claim claim={props.theorem.claim} /></h3>
 
-                {theorem.proof.map(step => {
+                {props.theorem.proof.map((step, index) => {
                     return (
-                        <li key={step.id}>
-                            <ol className="inline-grid">
-                                {step.claim
-                                    .sort((a, b) => a.orderIndex! - b.orderIndex!)
-                                    .map(claim => <li key={claim.id}><Claim claim={claim} /></li>)
-                                }
-                            </ol>
+                        <li key={step.id || index}>
+                            <Claim claim={step.claim} />
+                            {step.subProof && <SubProof subProof={step.subProof} />}
                         </li>
                     )
                 })}
