@@ -1,9 +1,6 @@
 name: Automated Tests
 
-on:
-  pull_request:
-  push:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   run_automated_tests:
@@ -12,15 +9,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 15.x]
+        node-version: [14.x, 15.x]
 
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
-      - name: Install dependencies
-        run: npm install
-      - name: Prisma-gen
-        run: npm run prisma-gen
       - name: Run unit tests
         run: npm test
