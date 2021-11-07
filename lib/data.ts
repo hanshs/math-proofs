@@ -1,27 +1,23 @@
-import { Argument, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import useSWR from "swr";
-import { ProofWithArguments } from "./prisma";
+import { ITheorem } from "./prisma";
 
-const get = (url: string) => fetch(url).then((res) => res.json());
-const post = (url: string, data: any) => fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(data)
-}).then((res) => res.json());
+const fetcher = (url: RequestInfo, options?: RequestInit) => fetch(url, options).then((res) => res.json());
 
 // queries
-export function useProofs() {
-    return useSWR<ProofWithArguments[]>("/api/proofs", get);
+export function useTheorems() {
+    return useSWR<{ theorems: ITheorem[] }>("/api/theorems", fetcher).data?.theorems;
 }
 
-export function useArguments() {
-    return useSWR<{ arguments: Argument[] }>("/api/arguments", get);
-}
-
-export function useProof(id?: string) {
-    return useSWR<{ proof: ProofWithArguments }>(id ? `/api/proof/${id}` : null, get);
+export function useTheorem(id?: string | string[]) {
+    return useSWR<{ theorem: ITheorem }>(id ? `/api/theorem/${id}` : null, fetcher).data?.theorem;
 }
 
 // mutations
-export function createProof(values: Prisma.ProofCreateInput) {
-    return post('/api/proof/create', values)
+export function createTheorem(input: Prisma.TheoremCreateInput) {
+    return fetcher('/api/theorem/create', { method: 'POST', body: JSON.stringify(input) })
+}
+
+export function deleteTheorem(id: number) {
+    return fetcher(`/api/theorem/${id}`, { method: 'DELETE' })
 }
