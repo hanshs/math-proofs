@@ -3,10 +3,12 @@ import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
 import { useTheorems } from '../lib/data'
+import { useSession } from 'next-auth/react'
 
 
 export default function IndexPage() {
   const theorems = useTheorems()
+  const session = useSession({ required: false })
 
   return (
     <>
@@ -21,7 +23,8 @@ export default function IndexPage() {
           <h1 className="font-semibold text-2xl">Theorems</h1>
           <p className="mb-4">Here you can find the list of all theorems currently in the system.</p>
         </div>
-        <Link href={'/create'}><a className="btn">Create Theorem</a></Link>
+        {session.status === 'authenticated' &&
+        <Link href={'/create'}><a className="btn">Create Theorem</a></Link>}
       </div>
       <div className="flex">
         <ol className="w-full">
