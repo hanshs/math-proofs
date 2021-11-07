@@ -18,7 +18,6 @@ export function CreateProofSteps(props: CreateProofStepsProps) {
     const emptyClaim = { claim: { statement: '' } }
     const [steps, setSteps] = React.useState<IProofStepCreate[]>([emptyClaim])
     const [hoverStep, setHoverStep] = React.useState<number | undefined>()
-    const [hoverSubProofDelete, setHoverSubProofDelete] = React.useState(false)
 
     const addStep = () => {
         const newSteps = [...steps]
@@ -74,7 +73,7 @@ export function CreateProofSteps(props: CreateProofStepsProps) {
                             <CreateClaim claim={step.claim} onChange={(claim) => updateClaim(claim, stepIndex)} />
 
                             {step.subProof && (
-                                <div className={`text-sm scale-95 p-3 border w-full ${hoverSubProofDelete ? ' bg-red-200' : ''}`}>
+                                <div className={`text-sm scale-95 p-3 border w-full`}>
                                     <CreateProofSteps onChange={(subProof) => updateSubProof(subProof, stepIndex)} isSubProof={true} onRemoveSubProof={() => removeSubProof(stepIndex)} />
                                 </div>
                             )}
