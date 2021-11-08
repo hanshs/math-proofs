@@ -9,7 +9,7 @@ interface SubProofProps {
 function SubProof(props: SubProofProps) {
     return (
         <div className=" ml-4">
-            <ol className="list-decimal list-inside">
+            <ol className="list-decimal list-inside space-y-4 pl-4 border-gray-300 border-l-2 mt-2">
                 {props.subProof.sort((a, b) => a.orderKey - b.orderKey).map((step, index) => {
                     return (
                         <li key={step.id || index}>
@@ -32,8 +32,8 @@ interface TheoremProps {
 export default function Theorem(props: TheoremProps) {
     return (
         <div className="space-y-3">
-            <ol className="list-decimal list-inside space-y-4">
-                <h3 className="text-xl"><Claim claim={props.theorem.claim} /></h3>
+            <h3 className="text-xl"><Claim claim={props.theorem.claim} /></h3>
+            <ol className="list-decimal list-inside space-y-4 pl-4 border-gray-300 border-l-2">
 
                 {props.theorem.proof.sort((a, b) => a.orderKey - b.orderKey).map((step, index) => {
                     return (
