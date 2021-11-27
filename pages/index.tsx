@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import { useTheorems } from '../lib/data'
 import { useSession } from 'next-auth/react'
+import Latex from 'react-latex-next'
 
 
 export default function IndexPage() {
@@ -31,7 +32,7 @@ export default function IndexPage() {
           {theorems?.map((theorem, index) => (
             <li key={index} className="hover:text-green-600 text-green-800 proofListItem">
               <Link href={`/theorem/${theorem.id}`} >
-                <a>{theorem.claim.statement}</a>
+                <a><Latex>{theorem.claim.statement}</Latex></a>
               </Link>
             </li>
           ))}

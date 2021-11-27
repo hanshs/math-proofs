@@ -34,7 +34,6 @@ export default function Theorem(props: TheoremProps) {
         <div className="space-y-3">
             <ol className="list-decimal list-inside space-y-4">
                 <h3 className="text-xl"><Claim claim={props.theorem.claim} /></h3>
-
                 {props.theorem.proof.sort((a, b) => a.orderKey - b.orderKey).map((step, index) => {
                     return (
                         <li key={step.id || index}>
