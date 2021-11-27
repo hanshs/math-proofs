@@ -1,4 +1,5 @@
 import '../public/styles/global.css'
+import 'katex/dist/katex.min.css'
 import type { AppProps } from 'next/app'
 import React from 'react'
 import 'tailwindcss/tailwind.css'

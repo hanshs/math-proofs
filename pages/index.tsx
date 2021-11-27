@@ -4,7 +4,6 @@ import Link from 'next/link'
 import React from 'react'
 import { useTheorems } from '../lib/data'
 import { useSession } from 'next-auth/react'
-import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 
 
