@@ -1,4 +1,6 @@
 import React from "react"
+import 'katex/dist/katex.min.css'
+import Latex from 'react-latex-next'
 
 interface ClaimProps {
     claim: Claim;
@@ -15,7 +17,7 @@ export default function Claim(props: ClaimProps) {
 
     return (
         <>
-            <span className={props.claim.successor ? 'cursor-pointer text-blue-700' : ''} onClick={() => setIsOpen(isOpen => !isOpen)}>{props.claim.statement}</span>
+            <span className={props.claim.successor ? 'cursor-pointer text-blue-700' : ''} onClick={() => setIsOpen(isOpen => !isOpen)}><Latex>{props.claim.statement}</Latex></span>
             {isOpen && props.claim.successor && <div className="ml-4"><Claim className="ml-4" claim={props.claim.successor} /></div>}
         </>
     )
