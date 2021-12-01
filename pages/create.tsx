@@ -12,11 +12,14 @@ import { CreateProofSteps, IProofStepCreate } from '../components/CreateProofSte
 
 import { createTheorem } from '../lib/data';
 
+import { useSession } from 'next-auth/react'
+
 
 export default function CreateProofPage() {
   const [claim, setClaim] = React.useState<IClaimCreate>()
   const [proof, setProof] = React.useState<IProofStepCreate[]>()
   const router = useRouter()
+  const session = useSession({ required: false })
 
   const onChangeTheoremClaim = (claim: IClaimCreate) => {
     setClaim(claim)
@@ -68,29 +71,35 @@ export default function CreateProofPage() {
         <title>Create a theorem</title>
       </Head>
 
-      <h1 className="font-semibold text-2xl mb-4">Create a theorem</h1>
+      {session.status === 'unauthenticated' && <p className="font-semibold text-xl mb-2">Please sign in to create a theorem.</p>}
+      
+      {session.status === 'authenticated' &&
+        <div>
+          <h1 className="font-semibold text-2xl mb-4">Create a theorem</h1>
 
-      <div className="space-y-4">
-        <div className="bg-yellow-50 py-6 px-4">
-          <p className="font-semibold text-xl mb-6">Claim</p>
-          <CreateClaim onChange={onChangeTheoremClaim} />
-        </div>
+          <div className="space-y-4">
+            <div className="bg-yellow-50 py-6 px-4">
+              <p className="font-semibold text-xl mb-6">Claim</p>
+              <CreateClaim onChange={onChangeTheoremClaim} />
+            </div>
 
-        <div className="bg-yellow-50 py-6 px-4">
-          <p className="font-semibold text-xl mb-6">Proof Steps</p>
-          <CreateProofSteps onChange={onChangeTheoremProofSteps} />
-        </div>
+            <div className="bg-yellow-50 py-6 px-4">
+              <p className="font-semibold text-xl mb-6">Proof Steps</p>
+              <CreateProofSteps onChange={onChangeTheoremProofSteps} />
+            </div>
 
-        {claim && proof && claim.statement !== '' && (
-          <div className="bg-gray-100 py-6 px-4 relative">
-            <span className="absolute right-4 top-2 text-gray-400">Theorem Preview</span>
-            <Theorem theorem={{ claim, proof } as ITheorem} />
-            {proof[0].claim.statement !== '' && (
-              <button className="btn ml-auto block" onClick={create}>Create</button>
+            {claim && proof && claim.statement !== '' && (
+              <div className="bg-gray-100 py-6 px-4 relative">
+                <span className="absolute right-4 top-2 text-gray-400">Theorem Preview</span>
+                <Theorem theorem={{ claim, proof } as ITheorem} />
+                {proof[0].claim.statement !== '' && (
+                  <button className="btn ml-auto block" onClick={create}>Create</button>
+                )}
+              </div>
             )}
           </div>
-        )}
-      </div>
+        </div>
+      }
     </>
   )
 }
