@@ -6,13 +6,23 @@ import { useTheorems } from '../lib/data'
 import { useSession } from 'next-auth/react'
 import Latex from 'react-latex-next'
 import { useState } from 'react'
+import { ITheorem } from "../lib/prisma"
 
 
 export default function IndexPage() {
   const theorems = useTheorems()
   const session = useSession({ required: false })
   const [searchPhrase, setSearchPhrase] = useState("");
+  const searchPredicate = (theorem: ITheorem) => {
+    if (searchPhrase.length == 0) {
+      return true;
+    }
 
+    const matchesClaim = theorem.claim.statement.toLowerCase().includes(searchPhrase.toLowerCase());
+    const matchesStepClaim = theorem.proof.some(step => step.claim.statement.toLowerCase().includes(searchPhrase.toLowerCase()));
+
+    return matchesClaim || matchesStepClaim;
+  }
 
   return (
     <>
@@ -36,7 +46,7 @@ export default function IndexPage() {
       </div>
       <div className="flex">
         <ol className="w-full">
-          {theorems?.filter((theorem) => {
+          {theorems?.filter(/* (theorem) => {
             if (searchPhrase == "") {
               return theorem;
             } else if (theorem.claim.statement.toLowerCase().includes(searchPhrase.toLowerCase())) {
@@ -51,7 +61,7 @@ export default function IndexPage() {
                 return theorem;
               }
             }
-          }).map((theorem, index) => (
+          } */searchPredicate).map((theorem, index) => (
             <li key={index} className="hover:text-green-600 text-green-800 proofListItem">
               <Link href={`/theorem/${theorem.id}`} >
                 <a><Latex>{theorem.claim.statement}</Latex></a>
