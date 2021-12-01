@@ -13,7 +13,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         try {
             res.status(200).json({
                 success: true,
-                theorems: await prisma.theorem.findMany({ include: { claim: true } })
+                theorems: await prisma.theorem.findMany({ 
+                    include: { 
+                        claim: true,
+                        proof: {
+                            include: {
+                                claim: true
+                            }
+                        }
+                    } })
             })
         } catch (error) {
             console.log('Error getting Theorems:', { error })
