@@ -46,22 +46,7 @@ export default function IndexPage() {
       </div>
       <div className="flex">
         <ol className="w-full">
-          {theorems?.filter(/* (theorem) => {
-            if (searchPhrase == "") {
-              return theorem;
-            } else if (theorem.claim.statement.toLowerCase().includes(searchPhrase.toLowerCase())) {
-              return theorem;
-            } else {
-              let steps = theorem.proof.filter((step) => {
-                if (step.claim.statement.toLowerCase().includes(searchPhrase.toLowerCase())) {
-                  return step;
-                }
-              });
-              if (steps.length > 0) {
-                return theorem;
-              }
-            }
-          } */searchPredicate).map((theorem, index) => (
+          {theorems?.filter(searchPredicate).map((theorem, index) => (
             <li key={index} className="hover:text-green-600 text-green-800 proofListItem">
               <Link href={`/theorem/${theorem.id}`} >
                 <a><Latex>{theorem.claim.statement}</Latex></a>
