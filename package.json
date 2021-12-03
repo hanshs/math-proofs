@@ -13,7 +13,11 @@
     "prisma-prep": "prisma db push && prisma generate",
     "test": "jest",
     "test:watch": "jest --watch",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "cypress-test": "start-server-and-test start http://localhost:3000 cypress",
+    "cypress:headless": "cypress run",
+    "e2e": "start-server-and-test start http://localhost:3000 cypress",
+    "e2e:headless": "start-server-and-test start http://localhost:3000 cypress:headless"
   },
   "dependencies": {
     "@prisma/client": "^3.3.0",
@@ -21,6 +25,7 @@
     "next-auth": "^4.0.0-next.26",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "start-server-and-test": "^1.14.0",
     "swr": "^1.0.1"
   },
   "devDependencies": {
