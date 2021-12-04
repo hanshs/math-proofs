@@ -30,7 +30,7 @@ export default function CreateProofPage() {
   }
 
   const create = async () => {
-    if (!claim && !proof) return
+    if (!claim || !proof) return
 
     const createClaimInput = (claim: IClaimCreate): Prisma.ClaimCreateNestedOneWithoutTheoremInput => {
       return {
@@ -54,8 +54,8 @@ export default function CreateProofPage() {
     }
 
     const input: Prisma.TheoremCreateInput = {
-      claim: createClaimInput(claim!),
-      proof: createStepsInput(proof!)
+      claim: createClaimInput(claim),
+      proof: createStepsInput(proof)
     }
 
     const response = await createTheorem(input)
@@ -72,7 +72,7 @@ export default function CreateProofPage() {
       </Head>
 
       {session.status === 'unauthenticated' && <p className="font-semibold text-xl mb-2">Please sign in to create a theorem.</p>}
-      
+
       {session.status === 'authenticated' &&
         <div>
           <h1 className="font-semibold text-2xl mb-4">Create a theorem</h1>
