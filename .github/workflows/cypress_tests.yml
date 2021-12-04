@@ -1,4 +1,4 @@
-name: Cypress Tests
+name: Integration Tests
 
 on: [push, pull_request]
 
@@ -13,6 +13,5 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          browser: firefox
           build: npm run build
-          start: npm run start
+          start: npm start
