@@ -15,6 +15,9 @@ jobs:
         uses: cypress-io/github-action@v2
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GITHUB_ID: "bfe4ae96d4ab6c650fde"
+          GITHUB_SECRET: "dd687490c42e4906821744f6af3f13f02e9d6263"
+          NEXTAUTH_URL: "http://localhost:3000"
         with:
           build: npm run build
           start: npm start

@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("rendering the app", () => {
+describe("Open existing theorem, UC1", () => {
     beforeEach(() => {
         cy.visit("/");
     })
