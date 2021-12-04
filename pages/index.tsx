@@ -3,10 +3,10 @@ import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
 import { useTheorems } from '../lib/data'
-import { useSession } from 'next-auth/react'
 import Latex from 'react-latex-next'
 import { useState } from 'react'
 import { ITheorem } from "../lib/prisma"
+import useSession from '../lib/use-session'
 
 
 export default function IndexPage() {

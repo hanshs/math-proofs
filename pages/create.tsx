@@ -11,8 +11,7 @@ import { CreateClaim, IClaimCreate } from '../components/CreateClaim';
 import { CreateProofSteps, IProofStepCreate } from '../components/CreateProofSteps';
 
 import { createTheorem } from '../lib/data';
-
-import { useSession } from 'next-auth/react'
+import useSession from '../lib/use-session';
 
 
 export default function CreateProofPage() {
@@ -72,7 +71,7 @@ export default function CreateProofPage() {
       </Head>
 
       {session.status === 'unauthenticated' && <p className="font-semibold text-xl mb-2">Please sign in to create a theorem.</p>}
-      
+
       {session.status === 'authenticated' &&
         <div>
           <h1 className="font-semibold text-2xl mb-4">Create a theorem</h1>
