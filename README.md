@@ -5,9 +5,23 @@ Environment for structured mathematical proofs
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Setting up the application
 
-First, run the development server:
+Note! Make sure you have the .env file with correct variables set up before trying to launch the application.
+
+First, install the necessary packages:
+
+```
+npm install
+```
+
+Next, populate the database using the following command:
+
+```
+npm run prisma-gen
+```
+
+Lastly, run the application:
 
 ```bash
 npm run dev
@@ -16,10 +30,3 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-

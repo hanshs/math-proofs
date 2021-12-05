@@ -10,8 +10,10 @@ describe("Open existing theorem, UC1", () => {
         cy.get("[data-cy=main-ol]").should("exist");
     });
 
-    it("naviagtes to single theorem page", () => {
-        cy.get('a[href*="theorem"]').first().click();
-        cy.get('.text-xl').should("exist");
+    it("naviagtes to single theorem page and back to main page", () => {
+        cy.get('[data-cy=theorem-title]').first().click();
+        cy.url().should('include', '/theorem/');
+        cy.get('[data-cy=back]').click();
+        cy.url().should('eq', 'http://localhost:3000/');
     });
 });

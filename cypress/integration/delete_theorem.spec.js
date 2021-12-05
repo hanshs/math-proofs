@@ -18,7 +18,7 @@ describe("Deleting theorem, UC-11", () => {
         });
         cy.get('[data-cy=delete-theorem]').click();
         cy.on('window:confirm', (text) => {
-            expect(text).to.contains('Are you sure?');
+            expect(text).to.contains('Are you sure');
             return true;
         });
         cy.url().should('eq', 'http://localhost:3000/');
@@ -32,7 +32,7 @@ describe("Deleting theorem, UC-11", () => {
         cy.get('[data-cy=delete-theorem]').click();
         cy.on('window:confirm', () => false);
         
-        cy.get('[data-cy=theorem-claim]').should("contain", claim);
+        cy.get('[data-cy=theorem-claim]').contains(claim);
         
         cy.url().then(urlString => {
             let url = '/api' + urlString.replace('http://localhost:3000', '');
@@ -40,7 +40,6 @@ describe("Deleting theorem, UC-11", () => {
         });
 
         cy.visit("/");
-        cy.get('[data-cy=main-ol]').not().contains(claim);
+        cy.get(claim).should("have.length", 0);
     });
-
 });

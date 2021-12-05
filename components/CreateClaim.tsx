@@ -42,8 +42,8 @@ export function CreateClaim(props: CreateClaimProps) {
     }, [claim])
 
     return (
-        <div className={`space-y-1 ${props.className || ''}`} data-cy="statements-div">
-            <input className="basic-input" placeholder="Insert statement" data-cy="claim-field" onChange={onChangeStatement} />
+        <div className={`space-y-1 ${props.className || ''}`}>
+            <input className="basic-input w-full" placeholder="Insert statement" data-cy="claim-field" onChange={onChangeStatement} />
             {claim.successor && (
                 <>
                     <CreateClaim className="ml-4" claim={claim.successor} onChange={onChangeSuccessor} onRemoveSuccessor={removeSuccessor} />

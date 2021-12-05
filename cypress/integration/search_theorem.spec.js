@@ -18,6 +18,7 @@ describe("Search theorems, UC-12", () => {
     });
 
     afterEach(() => {
+        cy.get('[data-cy=search]').clear();
         cy.request('DELETE', 'api/theorem/' + id);
     });
 

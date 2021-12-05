@@ -1,4 +1,3 @@
-
 import React from 'react'
 
 import Head from 'next/head'
@@ -29,8 +28,17 @@ export default function CreateProofPage() {
   }
 
   const create = async () => {
-    if (!claim && !proof) return
+    if (!claim || !proof) return
 
+    let inputs, index;
+
+    inputs = document.getElementsByTagName('input');
+    for (index = 0; index < inputs.length; ++index) {
+      if (inputs[index].value == "") {
+        window.alert("Please delete or fill empty proof steps and statements!")
+        return
+      }
+    }
     const createClaimInput = (claim: IClaimCreate): Prisma.ClaimCreateNestedOneWithoutTheoremInput => {
       return {
         create: {
@@ -53,8 +61,8 @@ export default function CreateProofPage() {
     }
 
     const input: Prisma.TheoremCreateInput = {
-      claim: createClaimInput(claim!),
-      proof: createStepsInput(proof!)
+      claim: createClaimInput(claim),
+      proof: createStepsInput(proof)
     }
 
     const response = await createTheorem(input)
@@ -70,26 +78,31 @@ export default function CreateProofPage() {
         <title>Create a theorem</title>
       </Head>
 
-      {session.status === 'unauthenticated' && <p className="font-semibold text-xl mb-2">Please sign in to create a theorem.</p>}
+      {session.status === 'unauthenticated' &&
+        <p className="font-semibold text-xl mb-2">Please sign in to create a theorem.</p>}
 
       {session.status === 'authenticated' &&
         <div>
-          <h1 className="font-semibold text-2xl mb-4" cata-cy="create-title">Create a theorem</h1>
+          <h1 className="font-semibold text-2xl mb-4" data-cy="create-title">Create a theorem</h1>
+          <div>
+            <p>You can use LaTeX in you proof steps</p>
+            <p className="mb-2 italic">Hint: try surrounding your variables with $ symbols</p>
+          </div>
 
           <div className="space-y-4">
-            <div className="bg-yellow-50 py-6 px-4" data-cy="claim-div">
+            <div className="bg-gray-50 py-6 px-4 rounded" data-cy="claim-div">
               <p className="font-semibold text-xl mb-6">Claim</p>
               <CreateClaim onChange={onChangeTheoremClaim} />
             </div>
 
-            <div className="bg-yellow-50 py-6 px-4" data-cy="steps-div">
+            <div className="bg-gray-50 py-6 px-4 rounded" data-cy="steps-div">
               <p className="font-semibold text-xl mb-6">Proof Steps</p>
               <CreateProofSteps onChange={onChangeTheoremProofSteps} />
             </div>
 
             {claim && proof && claim.statement !== '' && (
-              <div className="bg-gray-100 py-6 px-4 relative">
-                <span className="absolute right-4 top-2 text-gray-400" data-cy="preview-title">Theorem Preview</span>
+              <div className="bg-gray-100 py-6 px-4 relative rounded" data-cy="preview-div">
+                <span className="absolute right-4 top-2 text-gray-400">Theorem Preview</span>
                 <Theorem theorem={{ claim, proof } as ITheorem} />
                 {proof[0].claim.statement !== '' && (
                   <button className="btn ml-auto block" data-cy="create-btn" onClick={create}>Create</button>

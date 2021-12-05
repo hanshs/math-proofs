@@ -12,7 +12,7 @@ describe("Viewing a theorem, UC-1", () => {
         cy.get('[data-cy=claim-div] [data-cy=claim-field]').type(claim);
         cy.get('[data-cy=steps-div] [data-cy=claim-field]').type(step1);
         cy.get('[data-cy=steps-div] [data-cy=add-btn]').click();
-        cy.get('[data-cy=steps-div] [data-cy=statements-div] [data-cy=statements-div] [data-cy=claim-field]').type(subStep1);
+        cy.get('[data-cy=steps-div] [data-cy=claim-field]').eq(1).type(subStep1);
         cy.get('[data-cy=add-step]').click();
         cy.get('[data-cy=steps-div]>ol>li').eq(1).within(() => {
             cy.get('[data-cy=claim-field]').type(step2);

@@ -27,10 +27,13 @@ describe("Testing theorem creation, UC-2", () => {
         cy.get('[data-cy=claim-div] [data-cy=claim-field]').type(claim);
         cy.get('[data-cy=steps-div] [data-cy=claim-field]').type(step);
         
-        cy.get('[data-cy=preview-title]').should("exist");
-        cy.get('[data-cy=theorem-claim] [data-cy=claim]').should("contain", claim);
-        cy.get('[data-cy=theorem-ol] li [data-cy=claim]').should("contain", step);
-        cy.get('[data-cy=create-btn]').should("exist");
+        cy.get('[data-cy=preview-div]').should("exist");
+        cy.get('[data-cy=preview-div]').within(() => {
+            cy.get('[data-cy=theorem-claim]').contains(claim);
+            cy.get('ol>li').within(() => {
+                cy.get('[data-cy=claim]').contains(step);
+            });
+        });
     });
 
     it("creates a theorem", () => {
@@ -43,14 +46,18 @@ describe("Testing theorem creation, UC-2", () => {
         cy.get('[data-cy=claim-div] [data-cy=claim-field]').type(claim);
         cy.get('[data-cy=steps-div] [data-cy=claim-field]').type(step1);
         cy.get('[data-cy=steps-div] [data-cy=add-btn]').click();
-        cy.get('[data-cy=steps-div] [data-cy=statements-div] [data-cy=statements-div] [data-cy=claim-field]').type(subStep1);
+
+        cy.get('[data-cy=steps-div] [data-cy=claim-field]').eq(1).type(subStep1);
+
         cy.get('[data-cy=add-step]').click();
         cy.get('[data-cy=steps-div]>ol>li').eq(1).within(() => {
             cy.get('[data-cy=claim-field]').type(step2);
         });
         cy.get('[data-cy=create-btn]').click();
-        cy.get('[data-cy=theorem-ol] [data-cy=theorem-claim]').should("contain", claim);
+        
+        cy.get('[data-cy=theorem-claim]').contains(claim)
         cy.get('[data-cy=delete-theorem]').click();
         cy.on('window:confirm', () => true);
+        cy.visit("/");
     });
 });
