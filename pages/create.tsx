@@ -1,24 +1,24 @@
 import React from 'react'
 
 import Head from 'next/head'
-import {Prisma} from '@prisma/client';
-import {useRouter} from 'next/router';
+import { Prisma } from '@prisma/client';
+import { useRouter } from 'next/router';
 
 import Theorem from '../components/Theorem';
-import {ITheorem} from '../lib/prisma';
-import {CreateClaim, IClaimCreate} from '../components/CreateClaim';
-import {CreateProofSteps, IProofStepCreate} from '../components/CreateProofSteps';
+import { ITheorem } from '../lib/prisma';
+import { CreateClaim, IClaimCreate } from '../components/CreateClaim';
+import { CreateProofSteps, IProofStepCreate } from '../components/CreateProofSteps';
 
-import {createTheorem} from '../lib/data';
+import { createTheorem } from '../lib/data';
 
-import {useSession} from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 
 export default function CreateProofPage() {
   const [claim, setClaim] = React.useState<IClaimCreate>()
   const [proof, setProof] = React.useState<IProofStepCreate[]>()
   const router = useRouter()
-  const session = useSession({required: false})
+  const session = useSession({ required: false })
 
   const onChangeTheoremClaim = (claim: IClaimCreate) => {
     setClaim(claim)
@@ -29,23 +29,22 @@ export default function CreateProofPage() {
   }
 
   const create = async () => {
+    if (!claim || !proof) return
+
     let inputs, index;
 
     inputs = document.getElementsByTagName('input');
     for (index = 0; index < inputs.length; ++index) {
-      if(inputs[index].value == "") {
+      if (inputs[index].value == "") {
         window.alert("Please delete or fill empty proof steps and statements!")
         return
       }
     }
-
-    if (!claim && !proof) return
-
     const createClaimInput = (claim: IClaimCreate): Prisma.ClaimCreateNestedOneWithoutTheoremInput => {
       return {
         create: {
           statement: claim.statement,
-          ...(claim.successor ? {successor: createClaimInput(claim.successor)} : {})
+          ...(claim.successor ? { successor: createClaimInput(claim.successor) } : {})
         }
       }
     }
@@ -63,8 +62,8 @@ export default function CreateProofPage() {
     }
 
     const input: Prisma.TheoremCreateInput = {
-      claim: createClaimInput(claim!),
-      proof: createStepsInput(proof!)
+      claim: createClaimInput(claim),
+      proof: createStepsInput(proof)
     }
 
     const response = await createTheorem(input)
@@ -75,41 +74,41 @@ export default function CreateProofPage() {
   }
 
   return (
-      <>
-        <Head>
-          <title>Create a theorem</title>
-        </Head>
+    <>
+      <Head>
+        <title>Create a theorem</title>
+      </Head>
 
-        {session.status === 'unauthenticated' &&
+      {session.status === 'unauthenticated' &&
         <p className="font-semibold text-xl mb-2">Please sign in to create a theorem.</p>}
 
-        {session.status === 'authenticated' &&
+      {session.status === 'authenticated' &&
         <div>
           <h1 className="font-semibold text-2xl mb-4">Create a theorem</h1>
 
           <div className="space-y-4">
             <div className="bg-gray-50 py-6 px-4 rounded">
               <p className="font-semibold text-xl mb-6">Claim</p>
-              <CreateClaim onChange={onChangeTheoremClaim}/>
+              <CreateClaim onChange={onChangeTheoremClaim} />
             </div>
 
             <div className="bg-gray-50 py-6 px-4 rounded">
               <p className="font-semibold text-xl mb-6">Proof Steps</p>
-              <CreateProofSteps onChange={onChangeTheoremProofSteps}/>
+              <CreateProofSteps onChange={onChangeTheoremProofSteps} />
             </div>
 
             {claim && proof && claim.statement !== '' && (
-                <div className="bg-gray-100 py-6 px-4 relative rounded">
-                  <span className="absolute right-4 top-2 text-gray-400">Theorem Preview</span>
-                  <Theorem theorem={{claim, proof} as ITheorem}/>
-                  {proof[0].claim.statement !== '' && (
-                      <button className="btn ml-auto block" onClick={create}>Create</button>
-                  )}
-                </div>
+              <div className="bg-gray-100 py-6 px-4 relative rounded">
+                <span className="absolute right-4 top-2 text-gray-400">Theorem Preview</span>
+                <Theorem theorem={{ claim, proof } as ITheorem} />
+                {proof[0].claim.statement !== '' && (
+                  <button className="btn ml-auto block" onClick={create}>Create</button>
+                )}
+              </div>
             )}
           </div>
         </div>
-        }
-      </>
+      }
+    </>
   )
 }
