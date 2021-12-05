@@ -85,6 +85,10 @@ export default function CreateProofPage() {
       {session.status === 'authenticated' &&
         <div>
           <h1 className="font-semibold text-2xl mb-4">Create a theorem</h1>
+          <div>
+            <p>You can use LaTeX in you proof steps</p>
+            <p className="mb-2 italic">Hint: try surrounding your variables with $ symbols</p>
+          </div>
 
           <div className="space-y-4">
             <div className="bg-gray-50 py-6 px-4 rounded">
