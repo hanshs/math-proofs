@@ -12,11 +12,14 @@ import { CreateProofSteps, IProofStepCreate } from '../components/CreateProofSte
 
 import { createTheorem } from '../lib/data';
 
+import { useSession } from 'next-auth/react'
+
 
 export default function CreateProofPage() {
   const [claim, setClaim] = React.useState<IClaimCreate>()
   const [proof, setProof] = React.useState<IProofStepCreate[]>()
   const router = useRouter()
+  const session = useSession({ required: false })
 
   const onChangeTheoremClaim = (claim: IClaimCreate) => {
     setClaim(claim)
@@ -68,7 +71,11 @@ export default function CreateProofPage() {
         <title>Create a theorem</title>
       </Head>
 
-      <h1 className="font-semibold text-2xl mb-4">Create a theorem</h1>
+      {session.status === 'unauthenticated' && <p className="font-semibold text-xl mb-2">Please sign in to create a theorem.</p>}
+
+      {session.status === 'authenticated' &&
+        <div>
+          <h1 className="font-semibold text-2xl mb-4">Create a theorem</h1>
 
       <div className="space-y-4">
         <div className="bg-gray-50 py-6 px-4 rounded">
@@ -89,8 +96,8 @@ export default function CreateProofPage() {
               <button className="btn ml-auto block" onClick={create}>Create</button>
             )}
           </div>
-        )}
-      </div>
+        </div>
+      }
     </>
   )
 }

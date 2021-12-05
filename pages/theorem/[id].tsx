@@ -15,7 +15,7 @@ export default function ProofPage() {
   if (!theorem) return null
 
   const onClickDelete = async () => {
-    const confirm = window.confirm('Are you sure?')
+    const confirm = window.confirm('Are you sure you want to delete this theorem?')
 
     if (confirm) {
       const res = await deleteTheorem(theorem.id)

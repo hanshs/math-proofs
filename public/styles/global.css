@@ -30,6 +30,11 @@ hr {
     height: fit-content;
 }
 
+.btn-small {
+    padding: 4px 10px;
+    font-size: 14px;
+}
+
 .btn-secondary {
     background-color: theme('colors.secondary');
 }
@@ -41,4 +46,16 @@ hr {
     margin-bottom: 10px;
     padding: 10px;
     width: 100%;
+}
+
+#search-field {
+    width: 40%;
+    border: solid 1px;
+    border-color: theme('colors.primary');
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#search-field:focus {
+    outline: none;
 }
