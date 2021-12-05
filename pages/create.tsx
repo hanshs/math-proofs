@@ -30,6 +30,16 @@ export default function CreateProofPage() {
   }
 
   const create = async () => {
+    let inputs, index;
+
+    inputs = document.getElementsByTagName('input');
+    for (index = 0; index < inputs.length; ++index) {
+      if(inputs[index].value == "") {
+        window.alert("Please delete or fill empty proof steps and statements!")
+        return
+      }
+    }
+
     if (!claim && !proof) return
 
     const createClaimInput = (claim: IClaimCreate): Prisma.ClaimCreateNestedOneWithoutTheoremInput => {
