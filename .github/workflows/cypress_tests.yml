@@ -5,7 +5,6 @@ on: [push]
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    environment: test
     container: cypress/browsers:node12.18.3-chrome87-ff82
     steps:
       - name: Checkout
@@ -14,10 +13,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          GITHUB_ID: ${{ secrets.LOGIN_ID }}
-          GITHUB_SECRET: ${{ secrets.LOGIN_SECRET }}
-          NEXTAUTH_URL: "http://localhost:3000"
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
         with:
           build: npm run build
           start: npm start
