@@ -15,7 +15,7 @@ export default function ProofPage() {
   if (!theorem) return null
 
   const onClickDelete = async () => {
-    const confirm = window.confirm('Are you sure?')
+    const confirm = window.confirm('Are you sure you want to delete this theorem?')
 
     if (confirm) {
       const res = await deleteTheorem(theorem.id)
@@ -35,7 +35,7 @@ export default function ProofPage() {
       <Theorem theorem={theorem} />
 
       {session.status === 'authenticated' &&
-      <button className="btn btn-secondary block ml-auto" onClick={onClickDelete}>Delete Theorem</button>}
+      <button className="mt-4 btn btn-secondary block ml-auto" onClick={onClickDelete}>Delete Theorem</button>}
     </>
   )
 }

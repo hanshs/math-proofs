@@ -32,8 +32,8 @@ export default function IndexPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex justify-center">
-        <input type="text" id="search-field" placeholder="Enter search phrase ..." onChange={event => { setSearchPhrase(event.target.value) }} />
+      <div className="flex justify-end mb-2">
+        <input type="text" id="search-field" placeholder="Enter search phrase..." onChange={event => { setSearchPhrase(event.target.value) }} />
       </div>
 
       <div className="flex justify-between">
@@ -47,11 +47,11 @@ export default function IndexPage() {
       <div className="flex">
         <ol className="w-full">
           {theorems?.filter(searchPredicate).map((theorem, index) => (
-            <li key={index} className="hover:text-green-600 text-green-800 proofListItem">
-              <Link href={`/theorem/${theorem.id}`} >
-                <a><Latex>{theorem.claim.statement}</Latex></a>
+              <Link key={index} href={`/theorem/${theorem.id}`}>
+                <li className="hover:text-green-600 text-green-800 proofListItem cursor-pointer">
+                    <a><Latex>{theorem.claim.statement}</Latex></a>
+                </li>
               </Link>
-            </li>
           ))}
         </ol>
       </div>
