@@ -18,7 +18,7 @@ describe("Viewing a theorem, UC-1", () => {
             cy.get('[data-cy=claim-field]').type(step2);
         });
         cy.get('[data-cy=create-btn]').click()
-        cy.wait(1000);
+        cy.wait(2000);
         cy.url().then(urlString => {
             id = urlString.replace('http://localhost:3000/theorem/', '');
         });

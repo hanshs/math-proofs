@@ -10,7 +10,7 @@ describe("Search theorems, UC-12", () => {
         cy.get('[data-cy=claim-div] [data-cy=claim-field]').type(claim);
         cy.get('[data-cy=steps-div] [data-cy=claim-field]').type(step);
         cy.get('[data-cy=create-btn]').click()
-        cy.wait(1000);
+        cy.wait(2000);
         cy.url().then(urlString => {
             id = urlString.replace('http://localhost:3000/theorem/', '');
         });
