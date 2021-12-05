@@ -74,25 +74,25 @@ export default function CreateProofPage() {
 
       {session.status === 'authenticated' &&
         <div>
-          <h1 className="font-semibold text-2xl mb-4">Create a theorem</h1>
+          <h1 className="font-semibold text-2xl mb-4" cata-cy="create-title">Create a theorem</h1>
 
           <div className="space-y-4">
-            <div className="bg-yellow-50 py-6 px-4">
+            <div className="bg-yellow-50 py-6 px-4" data-cy="claim-div">
               <p className="font-semibold text-xl mb-6">Claim</p>
               <CreateClaim onChange={onChangeTheoremClaim} />
             </div>
 
-            <div className="bg-yellow-50 py-6 px-4">
+            <div className="bg-yellow-50 py-6 px-4" data-cy="steps-div">
               <p className="font-semibold text-xl mb-6">Proof Steps</p>
               <CreateProofSteps onChange={onChangeTheoremProofSteps} />
             </div>
 
             {claim && proof && claim.statement !== '' && (
               <div className="bg-gray-100 py-6 px-4 relative">
-                <span className="absolute right-4 top-2 text-gray-400">Theorem Preview</span>
+                <span className="absolute right-4 top-2 text-gray-400" data-cy="preview-title">Theorem Preview</span>
                 <Theorem theorem={{ claim, proof } as ITheorem} />
                 {proof[0].claim.statement !== '' && (
-                  <button className="btn ml-auto block" onClick={create}>Create</button>
+                  <button className="btn ml-auto block" data-cy="create-btn" onClick={create}>Create</button>
                 )}
               </div>
             )}

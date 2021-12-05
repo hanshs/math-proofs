@@ -32,6 +32,7 @@ export default function Layout(props: React.PropsWithChildren<{}>) {
                             <a
                                 href={`/api/auth/signout`}
                                 className="block ml-auto hover:text-secondary text-yellow-800"
+                                data-cy="signout"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     signOut()

@@ -16,7 +16,7 @@ export default function Claim(props: ClaimProps) {
 
     return (
         <>
-            <span className={props.claim.successor ? 'cursor-pointer text-blue-700' : ''} onClick={() => setIsOpen(isOpen => !isOpen)}><Latex>{props.claim.statement}</Latex></span>
+            <span className={props.claim.successor ? 'cursor-pointer text-blue-700' : ''} data-cy="claim" onClick={() => setIsOpen(isOpen => !isOpen)}><Latex>{props.claim.statement}</Latex></span>
             {isOpen && props.claim.successor && <div className="ml-4"><Claim className="ml-4" claim={props.claim.successor} /></div>}
         </>
     )
