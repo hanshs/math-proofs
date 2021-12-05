@@ -81,7 +81,7 @@ export function CreateProofSteps(props: CreateProofStepsProps) {
 
                     </div>
                     <div className="flex items-center space-x-4">
-                        {stepIndex !== 0 && <button className="btn btn-small" onClick={() => removeStep(stepIndex)} onMouseEnter={() => setHoverStep(stepIndex)} onMouseLeave={() => setHoverStep(undefined)}>Delete Step</button>}
+                        {stepIndex !== 0 && <button className="btn btn-small" data-cy="delete-step" onClick={() => removeStep(stepIndex)} onMouseEnter={() => setHoverStep(stepIndex)} onMouseLeave={() => setHoverStep(undefined)}>Delete Step</button>}
                         {!step.subProof && <button className="btn btn-secondary btn-small" data-cy="add-subproof" onClick={() => addSubProof(stepIndex)}>Add Subproof</button>}
                     </div>
 

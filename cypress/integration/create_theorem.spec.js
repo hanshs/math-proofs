@@ -1,4 +1,4 @@
-describe("Testing theorem creation, UC-2", () => {
+describe("Testing theorem creation, UC-2, UC-6", () => {
     beforeEach(() => {
         cy.visit("/");
     });
@@ -58,6 +58,26 @@ describe("Testing theorem creation, UC-2", () => {
         cy.get('[data-cy=theorem-claim]').contains(claim)
         cy.get('[data-cy=delete-theorem]').click();
         cy.on('window:confirm', () => true);
+        cy.visit("/");
+    });
+
+    it("deletes step during theorem creation", () => {
+        let claim = "Cypress testing theorem creation";
+        let step1 = "Cypress testing theorem creation step1";
+        let step2 = "Cypress testing theorem creation step2";
+
+        cy.get('[data-cy=create-link]').click();
+        cy.get('[data-cy=claim-div] [data-cy=claim-field]').type(claim);
+        cy.get('[data-cy=steps-div] [data-cy=claim-field]').type(step1);
+        cy.get('[data-cy=add-step]').click();
+        cy.get('[data-cy=steps-div]>ol>li').eq(1).within(() => {
+            cy.get('[data-cy=claim-field]').type(step2);
+        });
+        cy.get('[data-cy=delete-step]').should("exist");
+        cy.get('[data-cy=delete-step]').click();
+        cy.get('[data-cy=steps-div]').within(() => {
+            cy.get(step2).should("have.length", 0);
+        });
         cy.visit("/");
     });
 });
