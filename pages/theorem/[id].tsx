@@ -35,7 +35,7 @@ export default function ProofPage() {
       <Theorem theorem={theorem} />
 
       {session.status === 'authenticated' &&
-      <button className="btn btn-secondary block ml-auto" onClick={onClickDelete}>Delete Theorem</button>}
+      <button className="mt-4 btn btn-secondary block ml-auto" onClick={onClickDelete}>Delete Theorem</button>}
     </>
   )
 }
