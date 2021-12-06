@@ -35,8 +35,8 @@ interface TheoremProps {
 export default function Theorem(props: TheoremProps) {
     return (
         <div className="space-y-3">
-            <h3 className="text-xl"><Claim claim={props.theorem.claim} /></h3>
-            <ol className="list-decimal list-inside space-y-4 pl-4 border-gray-300 border-l-2">
+            <h3 className="text-xl" data-cy="theorem-claim"><Claim claim={props.theorem.claim} /></h3>
+            <ol className="list-decimal list-inside space-y-4 pl-4 border-gray-300 border-l-2" data-cy="theorem-ol">
 
                 {props.theorem.proof.sort((a, b) => a.orderKey - b.orderKey).map((step, index) => {
                     return (

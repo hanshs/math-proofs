@@ -1,5 +1,7 @@
 import React from "react";
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signIn, signOut } from 'next-auth/react'
+import useSession from "../lib/use-session";
+//import { signIn, signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
@@ -16,7 +18,7 @@ export default function Layout(props: React.PropsWithChildren<{}>) {
             {asPath !== "/" &&
             <div>
                 <Link href="/">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" opacity="0.6">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" opacity="0.6" data-cy="back">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
                     </svg>
                 </Link>
@@ -44,6 +46,7 @@ export default function Layout(props: React.PropsWithChildren<{}>) {
                             <a
                                 href={`/api/auth/signout`}
                                 className="block ml-auto hover:text-secondary text-yellow-800"
+                                data-cy="signout"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     signOut()

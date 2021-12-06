@@ -1,11 +1,11 @@
 
 import React from 'react'
 import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
 
 import { deleteTheorem, useTheorem } from '../../lib/data'
 import Head from 'next/head'
 import Theorem from '../../components/Theorem'
+import useSession from '../../lib/use-session'
 
 export default function ProofPage() {
   const router = useRouter()
@@ -35,7 +35,8 @@ export default function ProofPage() {
       <Theorem theorem={theorem} />
 
       {session.status === 'authenticated' &&
-      <button className="mt-4 btn btn-secondary block ml-auto" onClick={onClickDelete}>Delete Theorem</button>}
+      <button className="mt-4 btn btn-secondary block ml-auto" data-cy="delete-theorem" onClick={onClickDelete}>Delete Theorem</button>}
     </>
   )
 }
+

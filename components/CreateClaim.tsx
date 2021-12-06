@@ -43,7 +43,7 @@ export function CreateClaim(props: CreateClaimProps) {
 
     return (
         <div className={`space-y-1 ${props.className || ''}`}>
-            <input className="basic-input w-full" placeholder="Insert statement" onChange={onChangeStatement} />
+            <input className="basic-input w-full" placeholder="Insert statement" data-cy="claim-field" onChange={onChangeStatement} />
             {claim.successor && (
                 <>
                     <CreateClaim className="ml-4" claim={claim.successor} onChange={onChangeSuccessor} onRemoveSuccessor={removeSuccessor} />
@@ -51,7 +51,7 @@ export function CreateClaim(props: CreateClaimProps) {
             {!claim.successor && (
                 <>
                     {props.onRemoveSuccessor && <button className="ml-2" onClick={props.onRemoveSuccessor}>➖</button>}
-                    <button className="ml-2" onClick={addSuccessor}>➕</button>
+                    <button className="ml-2" data-cy="add-btn" onClick={addSuccessor}>➕</button>
                 </>
             )}
         </div>
