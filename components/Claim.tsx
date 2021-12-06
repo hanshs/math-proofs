@@ -30,12 +30,20 @@ export default function Claim(props: ClaimProps) {
         const wordList = props.claim.statement.split(' ')
 
         return wordList.map((item, index) => {
-            if (item.startsWith('##') && item.endsWith('##')) {
-                const refString = item.replace(/##/g, '')
 
-                return <button onMouseOver={() => setRef(refString)} onMouseLeave={() => setRef('')} className="text-green-800 hover:text-green-600" key={index}>{refString}</button>
+            if (item.startsWith('##')) {
+                const match = item.match(/##\d(\.\d)*##[.,:!?]?$/g)
+                if (match) {
+                    const refString = item.replace(/##/g, '')
+                    const idRe = /\d(\.\d)*/g;
+                    const ref = refString.match(idRe)
+
+                    if (ref) {
+                        const refId = ref[0]
+                        return <button onMouseOver={() => setRef(refId)} onMouseLeave={() => setRef('')} className="text-green-800 hover:text-green-600" key={index}>{refString}</button>
+                    }
+                }
             }
-
             return <>{' '}<Latex key={index}>{item}</Latex>{' '}</>
         })
     }, [props.claim.statement, setRef])
