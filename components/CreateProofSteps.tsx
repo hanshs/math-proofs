@@ -73,7 +73,7 @@ export function CreateProofSteps(props: CreateProofStepsProps) {
                             <CreateClaim claim={step.claim} onChange={(claim) => updateClaim(claim, stepIndex)} />
 
                             {step.subProof && (
-                                <div className={`text-sm scale-95 p-3 border w-full`}>
+                                <div className={`text-sm scale-95 p-3 border w-full`} data-cy="subproof">
                                     <CreateProofSteps onChange={(subProof) => updateSubProof(subProof, stepIndex)} isSubProof={true} onRemoveSubProof={() => removeSubProof(stepIndex)} />
                                 </div>
                             )}
@@ -90,7 +90,7 @@ export function CreateProofSteps(props: CreateProofStepsProps) {
             ))}
             <div className="flex justify-between">
                 <button className="btn btn-secondary" data-cy="add-step" onClick={addStep}>Add Step</button>
-                {props.isSubProof && <button className="btn" onClick={props.onRemoveSubProof}>Delete Subproof</button>}
+                {props.isSubProof && <button className="btn" data-cy="del-subproof" onClick={props.onRemoveSubProof}>Delete Subproof</button>}
             </div>
         </ol>
     )
