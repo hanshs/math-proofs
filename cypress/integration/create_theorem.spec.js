@@ -114,9 +114,8 @@ describe("Testing theorem creation, UC-2, UC-6", () => {
             cy.get('[data-cy=claim-field]').type(subProof);
         });
         cy.get('[data-cy=create-btn]').click();
-
-        cy.get('[data-cy=theorem-ol]').contains(subProof);
         cy.wait(2000);
+        cy.get('[data-cy=theorem-ol]').contains(subProof);
         cy.url().then((urlString) => {
             let url = '/api' + urlString.replace('http://localhost:3000', '');
             cy.request('DELETE', url);
